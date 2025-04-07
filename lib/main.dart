@@ -6,6 +6,8 @@ import 'package:jourapothole/core/routes/app_pages.dart';
 import 'package:jourapothole/core/themes/app_theme.dart';
 import 'package:jourapothole/core/utils/loading_controller.dart';
 import 'package:jourapothole/core/config/app_constants.dart';
+// *** Ensure this import points to the GENERATED file ***
+import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Correct import
 
 void main() {
   runApp(const MyApp());
@@ -28,13 +30,14 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.system,
           initialRoute: AppPages.initial,
           getPages: AppPages.routes,
-          locale: const Locale('en'), 
-          localizationsDelegates: const [
+          locale: Get.deviceLocale,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [Locale('en', ''), Locale('es', '')],
+          supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
           builder: (context, widget) {
             return Stack(
