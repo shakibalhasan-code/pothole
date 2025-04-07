@@ -40,7 +40,7 @@ This project aims to empower communities to improve road safety collaboratively.
    ```bash
    flutter gen-l10n
    ```
-   - This generates `lib/generated/l10n.dart` from `.arb` files in `lib/l10n/`.
+   - This generates `import 'package:flutter_gen/gen_l10n/app_localizations.dart';` from `.arb` files in `lib/l10n/`.
 
 4. **Run the App**:
    ```bash
@@ -74,7 +74,7 @@ JouraPothole supports multiple languages (English and Spanish by default) using 
    ```bash
    flutter gen-l10n
    ```
-   - Creates `lib/generated/l10n.dart` with `AppLocalizations` class.
+   - Creates `package:flutter_gen/gen_l10n/app_localizations.dart` with `AppLocalizations` class.
    - Run this whenever you update `.arb` files.
 
 2. **Verbose Mode (Debugging)**:
@@ -132,7 +132,8 @@ jourapothole/
 │   ├── features/          # Feature modules (e.g., home)
 │   │   └── home/         # Home feature (views, controllers, etc.)
 │   ├── l10n/             # Localization files (.arb)
-│   ├── generated/        # Generated localization files (l10n.dart)
+│   ├── app_en.arb        # English localization
+│   ├── app_es.arb        # Spanish localization
 │   └── main.dart         # App entry point
 ├── pubspec.yaml          # Dependencies
 └── README.md             # This file
