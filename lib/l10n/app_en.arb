@@ -1,0 +1,13 @@
+{
+  "homeTitle": "Home",
+  "welcomeMessage": "Welcome to My App!",
+  "count": "Counter: {value}",
+  "increment": "Increment",
+  "@count": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "homeTitle": "Inicio",
+  "welcomeMessage": "¡Bienvenido a Mi App!",
+  "count": "Contador: {value}",
+  "increment": "Incrementar",
+  "@count": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  }
+}
