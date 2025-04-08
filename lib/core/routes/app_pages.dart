@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:jourapothole/features/auth/binding/auth_binding.dart';
+import 'package:jourapothole/features/auth/view/on_boarding_screen.dart';
 import 'package:jourapothole/features/auth/view/splash_screen.dart';
 import 'package:jourapothole/features/home/bindings/home_binding.dart';
 import 'package:jourapothole/features/home/views/home_view.dart';
@@ -16,6 +17,12 @@ class AppPages {
       page: () => const SplashScreen(),
       binding: AuthBinding(),
     ),
+    GetPage(
+      name: Routes.onBoarding,
+      page: () => OnBoardingScreen(),
+      binding: AuthBinding(),
+    ),
+
     // Home Features
     GetPage(
       name: Routes.home,
