@@ -8,4 +8,9 @@ class AppTextStyles {
     fontWeight: FontWeight.w700,
     color: AppColors.darkColor,
   );
+  static TextStyle bodyLarge = TextStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w500,
+    color: AppColors.darkColor,
+  );
 }
