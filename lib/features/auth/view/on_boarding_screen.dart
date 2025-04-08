@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jourapothole/core/constants/app_images.dart';
+import 'package:jourapothole/core/constants/app_text_styles.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -43,17 +44,23 @@ class OnBoardingScreen extends StatelessWidget {
             left: 0,
             right: 0,
             child: Obx(
-              () => DotsIndicator(
-                // dots count == the number of individual screens
-                dotsCount: 3,
-                position: controller.currentPageIndex.value.toDouble(),
-                decorator: DotsDecorator(
-                  size: const Size.square(9.0),
-                  activeSize: const Size(18.0, 9.0),
-                  activeShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+              () => Column(
+                children: [
+                  DotsIndicator(
+                    // dots count == the number of individual screens
+                    dotsCount: 3,
+                    position: controller.currentPageIndex.value.toDouble(),
+                    decorator: DotsDecorator(
+                      size: const Size.square(9.0),
+                      activeSize: const Size(18.0, 9.0),
+                      activeShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
                   ),
-                ),
+
+                  
+                ],
               ),
             ),
           ),
@@ -78,7 +85,7 @@ class OnBoardingScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
             child: Text(
               title,
-              // style: AppFonts.titleLarge,
+              style: AppTextStyles.headerLarge,
               textAlign: TextAlign.center,
             ),
           ),
