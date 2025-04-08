@@ -2,8 +2,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:jourapothole/core/components/custom_button.dart';
 import 'package:jourapothole/core/constants/app_images.dart';
 import 'package:jourapothole/core/constants/app_text_styles.dart';
+import 'package:jourapothole/core/routes/app_pages.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -45,6 +47,7 @@ class OnBoardingScreen extends StatelessWidget {
             right: 0,
             child: Obx(
               () => Column(
+                spacing: 40.h,
                 children: [
                   DotsIndicator(
                     // dots count == the number of individual screens
@@ -58,8 +61,26 @@ class OnBoardingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: CustomButton(
+                      // currentIndex < 2 indicates we reached the last page
+                      buttonTitle:
+                          controller.currentPageIndex.value < 2
+                              ? "Next"
+                              : "Get Started",
+                      onTap: () {
+                        if (controller.currentPageIndex.value < 2) {
+                          controller.pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.ease,
+                          );
+                        } else {
+                          Get.offAllNamed(Routes.signIn);
+                        }
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
