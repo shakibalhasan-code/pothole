@@ -42,10 +42,9 @@ class AppPages {
       page: () => ForgetPasswordScreen(),
       binding: AuthBinding(),
     ),
-    GetPage(name: Routes.otp, page: () => OtpScreen(), binding: AuthBinding()),
     GetPage(
       name: Routes.newPassword,
-      page: () => NewPasswordScreen(),
+      page: () => PassSetScreen(),
       binding: AuthBinding(),
     ),
 

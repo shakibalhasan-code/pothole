@@ -20,7 +20,7 @@ class AppTextStyles {
   );
   static TextStyle bodySmall = TextStyle(
     fontSize: 14.sp,
-    fontWeight: FontWeight.w500,
+
     color: AppColors.darkColor,
   );
 }
