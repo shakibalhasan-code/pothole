@@ -23,9 +23,9 @@ jobs:
         with:
           channel: 'stable'
 
-      # Generate .env file from GitHub secret
-      - name: Generate .env file
-        run: echo "${{ secrets.ENV_FILE }}" > .env
+      # # Generate .env file from GitHub secret
+      # - name: Generate .env file
+      #   run: echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: Install dependencies
         run: flutter pub get
