@@ -4,7 +4,7 @@ import 'package:jourapothole/core/constants/app_colors.dart';
 
 class AppTextStyles {
   static TextStyle headerLarge = TextStyle(
-    fontSize: 48.sp,
+    fontSize: 32.sp,
     fontWeight: FontWeight.w700,
     color: AppColors.darkColor,
   );
