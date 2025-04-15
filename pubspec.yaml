@@ -19,6 +19,9 @@ dependencies:
   google_fonts: ^6.2.1
   dots_indicator: ^4.0.1
   flutter_svg: ^2.0.17
+  webview_flutter: ^4.10.0
+  webview_flutter_android: ^4.3.5
+  flutter_otp_text_field: ^1.5.1+1
 
 dev_dependencies:
   flutter_test:
