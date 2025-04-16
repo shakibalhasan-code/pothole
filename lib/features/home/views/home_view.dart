@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jourapothole/core/components/app_bar.dart';
 import 'package:jourapothole/core/constants/app_colors.dart';
 import 'package:jourapothole/core/constants/app_images.dart';
-import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet,dart';
+import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});

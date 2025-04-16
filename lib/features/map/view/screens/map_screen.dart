@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jourapothole/core/constants/app_colors.dart';
 import 'package:jourapothole/core/constants/app_images.dart';
 import 'package:jourapothole/features/map/view/components/map_problem_sheet.dart';
-import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet,dart';
+import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});

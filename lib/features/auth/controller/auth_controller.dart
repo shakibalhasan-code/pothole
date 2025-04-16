@@ -8,17 +8,15 @@ class AuthController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final signUpFormKey = GlobalKey<FormState>();
 
+  ///feild_controller
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
-
   final phoneNumberController = TextEditingController();
 
   final isRemembered = false.obs;
   final isPasswordVisible = false.obs;
-
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
