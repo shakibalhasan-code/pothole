@@ -38,7 +38,7 @@ class ForgetPasswordScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Select which contact details should we use to reset your password.',
             ),
             SizedBox(height: 20.h),
@@ -46,22 +46,9 @@ class ForgetPasswordScreen extends StatelessWidget {
             SizedBox(height: 10.h),
 
             TextFormField(
-              controller: controller.passwordController,
-              obscureText:
-                  !controller.isPasswordVisible.value, // Control visibility
-              validator: (value) {
-                // Add basic validation
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                if (value.length < 6) {
-                  // Example minimum length
-                  return 'Password must be at least 6 characters';
-                }
-                return null;
-              },
+              controller: controller.emailController,
               decoration: InputDecoration(
-                hintText: 'Enter your password',
+                hintText: 'Enter your email',
                 contentPadding: contentPadding, // Added content padding
                 prefixIcon: Padding(
                   // Added Padding around the icon

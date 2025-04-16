@@ -11,6 +11,8 @@ import 'package:jourapothole/features/auth/components/auth_card.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 import 'package:jourapothole/features/auth/view/forget_password_screen.dart';
 import 'package:jourapothole/features/auth/view/sign_up_screen.dart';
+import 'package:jourapothole/features/home/views/home_view.dart';
+import 'package:jourapothole/features/main_tab/main_parent_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
@@ -198,7 +200,7 @@ class SignInScreen extends StatelessWidget {
                   // Call the sign-in method in the controller
                   // Optionally add form validation check
                   if (controller.formKey.currentState?.validate() ?? false) {
-                    // controller.signIn();
+                    Get.offAll(() => const MainParentScreen());
                   }
                 },
               ),
@@ -234,17 +236,17 @@ class SignInScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               Row(
                 children: [
-                  Expanded(
+                  const Expanded(
                     child: Center(
                       child: AuthCard(iconPath: AppIcons.googleIcon),
                     ),
                   ),
                   SizedBox(width: 10.w),
-                  Expanded(
+                  const Expanded(
                     child: Center(child: AuthCard(iconPath: AppIcons.fbIcon)),
                   ),
                   SizedBox(width: 10.w),
-                  Expanded(
+                  const Expanded(
                     child: Center(
                       child: AuthCard(iconPath: AppIcons.appleIcon),
                     ),
@@ -256,7 +258,7 @@ class SignInScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Don\'t have an account?'),
+                  const Text('Don\'t have an account?'),
                   SizedBox(width: 5.w),
                   InkWell(
                     onTap: () {
