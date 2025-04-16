@@ -16,6 +16,23 @@ class AppTheme {
         hintStyle: AppTextStyles.bodySmall.copyWith(color: AppColors.grayColor),
         filled: false,
       ),
+      appBarTheme: AppBarTheme(
+        surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.white, // AppBar background color
+        elevation: 3, // Slight elevation for shadow
+        shadowColor: Colors.blue.withOpacity(
+          0.4,
+        ), // Blue shadow as seen in the image
+        foregroundColor: Colors.black, // Text and icon color
+        titleTextStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 18.sp,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.grey, // For icons like the notification bell
+        ),
+      ),
     );
   }
 

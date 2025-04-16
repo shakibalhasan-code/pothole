@@ -10,4 +10,15 @@ class AppIcons {
   static const String googleIcon = '$iconsPath/google_icon.svg';
   static const String fbIcon = '$iconsPath/fb_icon.svg';
   static const String appleIcon = '$iconsPath/apple_icon.svg';
+
+  ///tab_icons
+  static const String homeIcon = '$iconsPath/home_icon.svg';
+  static const String mapIcon = '$iconsPath/map_icon.svg';
+  static const String reportsIcon = '$iconsPath/reports_icon.svg';
+
+  static const String locationPinIcon = '$iconsPath/map_pin.svg';
+
+  static const String logoutIcon = '$iconsPath/logout_icon.svg';
+
+  static const String filterIcon = '$iconsPath/filter_icon.svg';
 }

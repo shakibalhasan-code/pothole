@@ -48,8 +48,8 @@ class SignUpScreen extends StatelessWidget {
                     Text('First Name', style: AppTextStyles.bodyMedium),
                     SizedBox(height: 5.h),
                     TextFormField(
-                      controller: controller.emailController,
-                      keyboardType: TextInputType.emailAddress,
+                      controller: controller.firstNameController,
+                      keyboardType: TextInputType.text,
                       validator: (value) {
                         // Add basic validation
                         if (value == null || value.isEmpty) {
@@ -82,8 +82,8 @@ class SignUpScreen extends StatelessWidget {
                     Text('Last Name', style: AppTextStyles.bodyMedium),
                     SizedBox(height: 5.h),
                     TextFormField(
-                      controller: controller.emailController,
-                      keyboardType: TextInputType.emailAddress,
+                      controller: controller.lastNameController,
+                      keyboardType: TextInputType.text,
                       validator: (value) {
                         // Add basic validation
                         if (value == null || value.isEmpty) {
@@ -150,8 +150,8 @@ class SignUpScreen extends StatelessWidget {
                     Text('Phone', style: AppTextStyles.bodyMedium),
                     SizedBox(height: 5.h),
                     TextFormField(
-                      controller: controller.emailController,
-                      keyboardType: TextInputType.emailAddress,
+                      controller: controller.phoneNumberController,
+                      keyboardType: TextInputType.number,
                       validator: (value) {
                         // Add basic validation
                         if (value == null || value.isEmpty) {
