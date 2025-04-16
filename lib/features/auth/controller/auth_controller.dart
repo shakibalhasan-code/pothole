@@ -5,8 +5,11 @@ class AuthController extends GetxController {
   final PageController pageController = PageController();
   final RxInt currentPageIndex = 0.obs;
 
-  final formKey = GlobalKey<FormState>();
-  final signUpFormKey = GlobalKey<FormState>();
+  // --- REMOVE THESE KEYS ---
+  // final formKey = GlobalKey<FormState>();             // REMOVED
+  // final signUpFormKey = GlobalKey<FormState>();      // REMOVED
+  // final passSetFormKey = GlobalKey<FormState>();     // REMOVED
+  // ---
 
   ///feild_controller
   final emailController = TextEditingController();
@@ -14,6 +17,9 @@ class AuthController extends GetxController {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneNumberController = TextEditingController();
+
+  final newPasswordController = TextEditingController();
+  final rePasswordController = TextEditingController();
 
   final isRemembered = false.obs;
   final isPasswordVisible = false.obs;
@@ -23,16 +29,18 @@ class AuthController extends GetxController {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     emailController.dispose();
     passwordController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
     phoneNumberController.dispose();
+    newPasswordController.dispose();
+    rePasswordController.dispose();
+    super.dispose();
   }
 
-  @override
-  // TODO: implement isClosed
-  bool get isClosed => super.isClosed;
+  // You might add methods here later for actual sign-in/sign-up logic
+  // e.g., Future<void> performSignIn() async { ... }
+  // Future<void> performSignUp() async { ... }
+  // Future<void> performSetPassword() async { ... }
 }
