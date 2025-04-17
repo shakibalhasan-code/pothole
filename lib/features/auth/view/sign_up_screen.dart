@@ -273,7 +273,16 @@ class SignUpScreen extends StatelessWidget {
               Row(/* ... Divider ... */),
               SizedBox(height: 20.h),
               // ... (Social Auth Cards Row) ...
-              Row(/* ... AuthCards ... */),
+              Row(
+                children: [
+                  Expanded(child: AuthCard(iconPath: AppIcons.googleIcon)),
+                  SizedBox(width: 8.w),
+                  Expanded(child: AuthCard(iconPath: AppIcons.fbIcon)),
+                  SizedBox(width: 8.w),
+
+                  Expanded(child: AuthCard(iconPath: AppIcons.appleIcon)),
+                ],
+              ),
               SizedBox(height: 30.h),
               // ... (SignIn Navigation Row) ...
               Row(
