@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:jourapothole/core/constants/app_colors.dart';
 import 'package:jourapothole/core/constants/app_icons.dart';
 import 'package:jourapothole/features/main_tab/controller/bottom_nav_controller.dart';
+import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet.dart';
 
 class CustomBottomNav extends StatelessWidget {
   const CustomBottomNav({super.key});
@@ -26,7 +27,19 @@ class CustomBottomNav extends StatelessWidget {
               InkWell(
                 splashColor: Colors.white24,
                 borderRadius: BorderRadius.circular(10.r),
-                onTap: () {},
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: AppColors.whiteColor,
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    builder: (context) => const PotholeReportBottomSheet(),
+                  );
+                },
                 child: Container(
                   width: 48.w,
                   height: 45.h,

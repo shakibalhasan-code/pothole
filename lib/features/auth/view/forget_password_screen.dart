@@ -11,8 +11,7 @@ import 'package:jourapothole/features/auth/view/otp_screen.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   ForgetPasswordScreen({super.key});
-  final AuthController controller = Get.find<AuthController>();
-
+  final controller = Get.put(AuthController());
   // Define common padding for icons
   static const iconPadding = EdgeInsets.all(12.0); // Adjust as needed
   // Define common content padding for text fields
