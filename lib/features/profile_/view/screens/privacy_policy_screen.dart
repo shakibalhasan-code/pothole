@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:jourapothole/core/constants/app_colors.dart';
 import 'package:jourapothole/core/constants/app_text_styles.dart';
 
@@ -20,7 +19,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        title: Text('Privacy Policy'),
+        title: const Text('Privacy Policy'),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -31,7 +30,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 16.h,
               children: [
-                SizedBox(),
+                const SizedBox(),
                 Text(
                   "${index + 1}.  ${privacyData[index]["title"]!}",
                   style: AppTextStyles.bodyMedium,
