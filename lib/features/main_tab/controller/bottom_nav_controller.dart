@@ -13,9 +13,18 @@ class BottomNavController extends GetxController {
     }
   }
 
+  // Call this method from PageView's onPageChanged
+  void onPageChanged(int index) {
+    if (selectedIndex.value != index) {
+      selectedIndex.value =
+          index; // Update index if page was changed by swiping
+    }
+  }
+
   @override
   void onClose() {
-    pageController.dispose();
+    pageController
+        .dispose(); // Dispose the controller when GetX controller closes
     super.onClose();
   }
 }
