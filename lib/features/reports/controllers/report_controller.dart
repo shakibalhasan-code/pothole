@@ -10,21 +10,14 @@ class ReportController extends GetxController {
   // Keep the picker instance reusable
   final ImagePicker _picker = ImagePicker();
 
-  // Observable list to hold the selected/captured files
   RxList<File> pickedMedia = <File>[].obs;
 
   // --- Method to Pick Multiple Media from Gallery ---
   Future<void> pickMediaFromGallery() async {
     try {
-      // Use pickMultipleMedia to allow selecting multiple images/videos
-      final List<XFile> mediaFiles = await _picker.pickMultipleMedia(
-        // Optional: You can set limits or request specific types
-        // imageQuality: 80, // Example: Lower quality to save space
-      );
+      final List<XFile> mediaFiles = await _picker.pickMultipleMedia();
 
       if (mediaFiles.isNotEmpty) {
-        // Add the selected files to the list
-        // Use addAll to append to the existing list, or .value = ... to replace
         pickedMedia.addAll(mediaFiles.map((file) => File(file.path)).toList());
         print("Picked ${mediaFiles.length} files from gallery.");
       } else {
