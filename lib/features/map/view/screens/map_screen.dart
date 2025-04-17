@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/instance_manager.dart';
 import 'package:jourapothole/core/constants/app_colors.dart';
 import 'package:jourapothole/core/constants/app_images.dart';
 import 'package:jourapothole/features/map/view/components/map_problem_sheet.dart';
@@ -59,10 +61,11 @@ class MapScreen extends StatelessWidget {
                 builder: (context) => const ProblemBottomSheet(),
               );
             },
-            child: Positioned.fill(
-              child: Container(
-                color: Colors.grey[200],
-                child: Center(child: Image.asset(AppImages.mapImage)),
+            child: Center(
+              child: Image.asset(
+                AppImages.mapImage,
+                filterQuality: FilterQuality.none,
+                fit: BoxFit.cover,
               ),
             ),
           ),

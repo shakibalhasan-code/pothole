@@ -255,11 +255,11 @@ class HomeView extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.r),
-                child: Expanded(
-                  child: Image.asset(
-                    AppImages.splashScreen1,
-                    fit: BoxFit.cover,
-                  ),
+                child: Image.asset(
+                  filterQuality: FilterQuality.none,
+
+                  AppImages.splashScreen1,
+                  fit: BoxFit.cover,
                 ),
               ), // Replace with actual image
             ),
