@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           title: AppConstants.appName,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.system,
+          themeMode: ThemeMode.light,
           initialRoute: AppPages.initial,
           getPages: AppPages.routes,
           locale: Get.deviceLocale,

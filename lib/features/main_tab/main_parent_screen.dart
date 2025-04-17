@@ -17,9 +17,11 @@ class MainParentScreen extends StatelessWidget {
     return Scaffold(
       body: PageView(
         controller: controller.pageController,
-        physics: const NeverScrollableScrollPhysics(),
+
+        onPageChanged: controller.onPageChanged,
         children: [HomeView(), MapScreen(), ReportsScreen(), ProfileScreen()],
       ),
+
       bottomNavigationBar: const CustomBottomNav(),
     );
   }

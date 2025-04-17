@@ -100,7 +100,7 @@ class HomeView extends StatelessWidget {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
-                  onPressed: () => Get.to(() => DrafsScreen()),
+                  onPressed: () => Get.to(DrafsScreen()),
                   child: const Text(
                     'SEE ALL',
                     style: TextStyle(color: AppColors.blueColor),

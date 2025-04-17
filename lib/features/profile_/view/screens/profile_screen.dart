@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:jourapothole/core/constants/app_colors.dart';
 import 'package:jourapothole/core/constants/app_icons.dart';
+import 'package:jourapothole/core/constants/app_images.dart';
 import 'package:jourapothole/core/constants/app_text_styles.dart';
 import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
 import 'package:jourapothole/features/profile_/view/components/profile_componens.dart';
@@ -32,8 +33,6 @@ class ProfileScreen extends StatelessWidget {
                 },
                 child: Obx(() {
                   final pickedImage = controller.pickedImage.value;
-                  final profileImage =
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/800px-Placeholder_view_vector.svg.png';
 
                   return Stack(
                     children: [
@@ -45,8 +44,8 @@ class ProfileScreen extends StatelessWidget {
                           child:
                               pickedImage != null
                                   ? Image.file(pickedImage, fit: BoxFit.cover)
-                                  : Image.network(
-                                    profileImage,
+                                  : Image.asset(
+                                    AppImages.avatar,
                                     fit: BoxFit.cover,
                                   ),
                         ),

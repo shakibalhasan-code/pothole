@@ -221,7 +221,7 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
             GestureDetector(
               onTap: () async {
                 // Add file picker functionality here
-                await reportController.pickImage();
+                reportController.showMediaSourceSelection();
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -317,7 +317,7 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
                   );
             }),
 
-            CustomButton(buttonTitle: 'Continue', onTap: () {}),
+            CustomButton(buttonTitle: 'Continue', onTap: () => Get.back()),
           ],
         ),
       ),
