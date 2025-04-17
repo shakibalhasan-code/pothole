@@ -16,12 +16,6 @@ class ReportsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Reports'),
         automaticallyImplyLeading: false, // Remove back button if not needed
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: SvgPicture.asset(AppIcons.filterIcon, color: Colors.black),
-          ),
-        ],
       ),
 
       body: Padding(
@@ -104,24 +98,24 @@ class ReportsScreen extends StatelessWidget {
                         'Issue type: $issueType',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            '\$500',
-                            style: TextStyle(
-                              color: AppColors.greenColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '/\$2000',
-                            style: TextStyle(
-                              color: AppColors.redColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       '\$500',
+                      //       style: TextStyle(
+                      //         color: AppColors.greenColor,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //     Text(
+                      //       '/\$2000',
+                      //       style: TextStyle(
+                      //         color: AppColors.redColor,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       // const Text(
                       //   '\$500/\$2000',
                       //   style: TextStyle(color: AppColors.greyColor),

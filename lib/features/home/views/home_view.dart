@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:jourapothole/core/components/app_bar.dart';
 import 'package:jourapothole/core/constants/app_colors.dart';
 import 'package:jourapothole/core/constants/app_images.dart';
+import 'package:jourapothole/features/main_tab/controller/bottom_nav_controller.dart';
 import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet.dart';
+import 'package:jourapothole/features/reports/view/components/reports_details.dart';
+import 'package:jourapothole/features/reports/view/screens/drafs_screen.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  HomeView({super.key});
+
+  final navController = Get.find<BottomNavController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
-      appBar: const GlobalAppBar(
+      appBar: GlobalAppBar(
         actionChildren: SizedBox.shrink(), // Empty widget for actions
         isShowProfile: true, // Show profile section
       ),
@@ -93,7 +100,7 @@ class HomeView extends StatelessWidget {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => DrafsScreen()),
                   child: const Text(
                     'SEE ALL',
                     style: TextStyle(color: AppColors.blueColor),
@@ -103,50 +110,62 @@ class HomeView extends StatelessWidget {
             ),
             SizedBox(
               height: 65.h,
-              width: double.infinity,
+
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: 2,
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(left: 5.w),
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(left: 5.w),
-                    child: Container(
-                      height: double.infinity,
-                      width: 259.w,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        border: Border.all(
-                          width: 1,
-                          color: AppColors.primaryLightColor,
+                  return InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: AppColors.whiteColor,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.location_on,
-                            color: AppColors.blueColor,
+                        builder: (context) => const PotholeReportBottomSheet(),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 5.w),
+                      child: Container(
+                        height: double.infinity,
+                        width: 259.w,
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppColors.whiteColor,
+                          border: Border.all(
+                            width: 1,
+                            color: AppColors.primaryLightColor,
                           ),
-                          const SizedBox(width: 8),
-                          const Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('2972 Westheimer Rd. Santa Ana'),
-                                SizedBox(height: 4),
-                                Text(
-                                  'Time: 12.30 pm',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Row(
+                          children: [
+                            Icon(Icons.location_on, color: AppColors.blueColor),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('2972 Westheimer Rd. Santa Ana'),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'Time: 12.30 pm',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -154,7 +173,6 @@ class HomeView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-
             // Recent Reports Section
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,7 +182,9 @@ class HomeView extends StatelessWidget {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    navController.changePage(3);
+                  },
                   child: const Text(
                     'SEE ALL',
                     style: TextStyle(color: AppColors.blueColor),
@@ -175,7 +195,7 @@ class HomeView extends StatelessWidget {
 
             Expanded(
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: 3,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: EdgeInsets.only(top: 5.h),
@@ -184,6 +204,20 @@ class HomeView extends StatelessWidget {
                       '2972 Westheimer Rd. Santa Ana',
                       'Fixed',
                       Colors.green,
+                      () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: AppColors.whiteColor,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
+                          ),
+                          builder:
+                              (context) => const ReportProblemBottomSheet(),
+                        );
+                      },
                     ),
                   );
                 },
@@ -200,107 +234,114 @@ class HomeView extends StatelessWidget {
     String location,
     String status,
     Color statusColor,
+    VoidCallback onTap,
   ) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.lightBlueColor,
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 80.w,
-            height: 60.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: AppColors.greyColor.withOpacity(0.3),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.r),
-              child: Expanded(
-                child: Image.asset(AppImages.splashScreen1, fit: BoxFit.cover),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: AppColors.lightBlueColor,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 80.w,
+              height: 60.w,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: AppColors.greyColor.withOpacity(0.3),
               ),
-            ), // Replace with actual image
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Issue type: $issueType',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          '\$500',
-                          style: TextStyle(
-                            color: AppColors.greenColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '/\$2000',
-                          style: TextStyle(
-                            color: AppColors.redColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    // const Text(
-                    //   '\$500/\$2000',
-                    //   style: TextStyle(color: AppColors.greyColor),
-                    // ),
-                  ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: Expanded(
+                  child: Image.asset(
+                    AppImages.splashScreen1,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on,
-                      color: AppColors.blueColor,
-                      size: 16,
-                    ),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        location,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: AppColors.greyColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    Text(
-                      'Issue Update:',
-                      style: TextStyle(color: Colors.black, fontSize: 14),
-                    ),
-                    SizedBox(width: 5.w),
-                    Text(
-                      status,
-                      style: TextStyle(
-                        color: statusColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              ), // Replace with actual image
             ),
-          ),
-        ],
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Issue type: $issueType',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       '\$500',
+                      //       style: TextStyle(
+                      //         color: AppColors.greenColor,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //     Text(
+                      //       '/\$2000',
+                      //       style: TextStyle(
+                      //         color: AppColors.redColor,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const Text(
+                      //   '\$500/\$2000',
+                      //   style: TextStyle(color: AppColors.greyColor),
+                      // ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.location_on,
+                        color: AppColors.blueColor,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          location,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppColors.greyColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Text(
+                        'Issue Update:',
+                        style: TextStyle(color: Colors.black, fontSize: 14),
+                      ),
+                      SizedBox(width: 5.w),
+                      Text(
+                        status,
+                        style: TextStyle(
+                          color: statusColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

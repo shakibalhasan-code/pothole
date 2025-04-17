@@ -8,6 +8,7 @@ import 'package:jourapothole/core/constants/app_text_styles.dart';
 import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
 import 'package:jourapothole/features/profile_/view/components/profile_componens.dart';
 import 'package:jourapothole/features/profile_/view/screens/edit_profile.dart';
+import 'package:jourapothole/features/profile_/view/screens/privacy_policy_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -88,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
               _buildProfileOption(
                 icon: SvgPicture.asset(AppIcons.passwordIcon),
                 title: "Privacy Policy",
-                ontap: () {},
+                ontap: () => Get.to(() => PrivacyPolicyScreen()),
               ),
               _buildProfileOption(
                 icon: SvgPicture.asset(

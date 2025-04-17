@@ -54,9 +54,25 @@ class ProfileComponents {
               Row(
                 children: [
                   Expanded(
-                    child: CustomButton(
-                      buttonTitle: 'Cancel',
-                      onTap: () => Navigator.pop(context),
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: Colors.blue), // Blue outline
+                        backgroundColor: Colors.white, // White background
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            24.r,
+                          ), // Rounded corners
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                      ),
+                      child: Text(
+                        'Cancel',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: Colors.blue, // Blue text
+                          fontSize: 16.sp,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(width: 15.w),

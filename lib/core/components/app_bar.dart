@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:jourapothole/core/constants/app_images.dart';
+import 'package:jourapothole/features/main_tab/controller/bottom_nav_controller.dart';
 
 class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget actionChildren;
   final bool isShowProfile;
   final String? appbarTitle;
 
-  const GlobalAppBar({
+  GlobalAppBar({
     super.key,
     required this.actionChildren,
     required this.isShowProfile,
     this.appbarTitle,
   });
+
+  final navController = Get.find<BottomNavController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +25,16 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 3,
       leading:
           isShowProfile
-              ? Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: CircleAvatar(
-                  backgroundImage: const AssetImage(AppImages.avatar),
-                  radius: 20,
+              ? InkWell(
+                onTap: () {
+                  navController.changePage(4);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: CircleAvatar(
+                    backgroundImage: const AssetImage(AppImages.avatar),
+                    radius: 20,
+                  ),
                 ),
               )
               : null,
@@ -65,10 +75,10 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
       actions: [
         actionChildren,
-        const Padding(
-          padding: EdgeInsets.only(right: 16.0),
-          child: Icon(Icons.notifications_none, color: Colors.grey, size: 24),
-        ),
+        // const Padding(
+        //   padding: EdgeInsets.only(right: 16.0),
+        //   child: Icon(Icons.notifications_none, color: Colors.grey, size: 24),
+        // ),
       ],
     );
   }
