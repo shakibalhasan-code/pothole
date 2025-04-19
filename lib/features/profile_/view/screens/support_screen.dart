@@ -35,7 +35,7 @@ class SupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context); // Get theme data
+    Theme.of(context); // Get theme data
 
     return Scaffold(
       // Use screen background color for consistency
@@ -72,20 +72,6 @@ class SupportScreen extends StatelessWidget {
   }
 
   // --- Helper Widgets for Building Sections ---
-
-  Widget _buildSectionTitle(BuildContext context, String title) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0, top: 8.0),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-          // Use primary color for section titles
-          color: AppColors.primaryColor,
-        ),
-      ),
-    );
-  }
 
   Widget _buildContactCard(BuildContext context) {
     // Use primary color for prominent icons in this section

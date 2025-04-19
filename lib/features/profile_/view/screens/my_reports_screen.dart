@@ -15,9 +15,12 @@ class MyReportsScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios_new_rounded, color: Colors.black),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.black,
+          ),
         ),
-        title: Text('My Reports'),
+        title: const Text('My Reports'),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -98,28 +101,6 @@ class MyReportsScreen extends StatelessWidget {
                         'Issue type: $issueType',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      // Row(
-                      //   children: [
-                      //     Text(
-                      //       '\$500',
-                      //       style: TextStyle(
-                      //         color: AppColors.greenColor,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //     Text(
-                      //       '/\$2000',
-                      //       style: TextStyle(
-                      //         color: AppColors.redColor,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const Text(
-                      //   '\$500/\$2000',
-                      //   style: TextStyle(color: AppColors.greyColor),
-                      // ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -145,7 +126,7 @@ class MyReportsScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Issue Update:',
                         style: TextStyle(color: Colors.black, fontSize: 14),
                       ),
