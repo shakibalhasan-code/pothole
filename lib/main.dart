@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -51,7 +52,9 @@ class MyApp extends StatelessWidget {
                               ? Container(
                                 color: Colors.black.withValues(alpha: 0.5),
                                 child: const Center(
-                                  child: CircularProgressIndicator(),
+                                  child: CupertinoActivityIndicator(
+                                    animating: true,
+                                  ),
                                 ),
                               )
                               : const SizedBox.shrink(),

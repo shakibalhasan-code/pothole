@@ -144,7 +144,7 @@ class ReportsScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Issue Update:',
                         style: TextStyle(color: Colors.black, fontSize: 14),
                       ),

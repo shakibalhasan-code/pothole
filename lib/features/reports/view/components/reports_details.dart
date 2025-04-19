@@ -23,7 +23,7 @@ class ReportProblemBottomSheet extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               IconButton(
-                icon: Icon(Icons.close, color: AppColors.redColor),
+                icon: const Icon(Icons.close, color: AppColors.redColor),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -60,13 +60,13 @@ class ReportProblemBottomSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              const Row(
                 children: [
-                  const Text(
+                  Text(
                     'Issue : ',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
-                  const Text(
+                  Text(
                     'Open',
                     style: TextStyle(
                       fontSize: 16,
