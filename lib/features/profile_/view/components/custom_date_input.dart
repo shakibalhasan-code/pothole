@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
 
 class DateInput extends StatefulWidget {
   const DateInput({

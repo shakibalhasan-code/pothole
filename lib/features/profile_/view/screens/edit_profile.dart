@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jourapothole/core/components/custom_button.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/components/custom_button.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});

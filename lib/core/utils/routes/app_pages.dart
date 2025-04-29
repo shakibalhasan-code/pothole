@@ -3,7 +3,6 @@ import 'package:jourapothole/features/auth/binding/auth_binding.dart';
 import 'package:jourapothole/features/auth/view/forget_password_screen.dart';
 import 'package:jourapothole/features/auth/view/new_password_screen.dart';
 import 'package:jourapothole/features/boarding/views/on_boarding_screen.dart';
-import 'package:jourapothole/features/auth/view/otp_screen.dart';
 import 'package:jourapothole/features/auth/view/sign_in_screen.dart';
 import 'package:jourapothole/features/auth/view/sign_up_screen.dart';
 import 'package:jourapothole/features/boarding/views/splash_screen.dart';

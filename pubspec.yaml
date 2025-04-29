@@ -24,6 +24,7 @@ dependencies:
   flutter_otp_text_field: ^1.5.1+1
   image_picker: ^1.1.2
   url_launcher: ^6.3.1
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

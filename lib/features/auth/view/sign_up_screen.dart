@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:jourapothole/core/components/custom_button.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
-import 'package:jourapothole/core/constants/app_icons.dart';
-import 'package:jourapothole/core/constants/app_text_styles.dart';
+import 'package:jourapothole/core/utils/components/custom_button.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/constants/app_icons.dart';
+import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 import 'package:jourapothole/core/wrappers/body_wrapper.dart';
 import 'package:jourapothole/features/auth/components/auth_card.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
@@ -252,22 +252,23 @@ class SignUpScreen extends StatelessWidget {
               ),
 
               SizedBox(height: 25.h),
-              CustomButton(
-                buttonTitle: 'SignUp',
-                onTap: () {
-                  // --- UPDATE VALIDATION CALL ---
-                  if (_signUpFormKey.currentState?.validate() ?? false) {
-                    // <<< UPDATE THIS LINE
-                    // TODO: Call actual sign-up logic from controller
-                    // e.g., controller.performSignUp();
-                    print('Sign up validation successful');
-                    // Maybe navigate to OTP screen or directly to sign in/home after success
-                    Get.back(); // Example: Go back to Sign In after successful sign up
-                  } else {
-                    print('Sign up validation failed');
-                  }
-                },
-              ),
+              Obx(() {
+                return controller.isLoading.value
+                    ? Center(child: CircularProgressIndicator())
+                    : CustomButton(
+                      buttonTitle: 'SignUp',
+                      onTap: () {
+                        // --- UPDATE VALIDATION CALL ---
+                        if (_signUpFormKey.currentState?.validate() ?? false) {
+                          print('Sign up validation successful');
+                          // Maybe navigate to OTP screen or directly to sign in/home after success
+                          controller.signUp();
+                        } else {
+                          print('Sign up validation failed');
+                        }
+                      },
+                    );
+              }),
               SizedBox(height: 30.h),
               // ... (Or Continue With Row) ...
               Row(/* ... Divider ... */),

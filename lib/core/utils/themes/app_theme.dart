@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
-import 'package:jourapothole/core/constants/app_text_styles.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 
 class AppTheme {
   static ThemeData get lightTheme {

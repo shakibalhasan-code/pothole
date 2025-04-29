@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:jourapothole/core/components/custom_button.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
-import 'package:jourapothole/core/constants/app_icons.dart';
-import 'package:jourapothole/core/constants/app_text_styles.dart';
+import 'package:jourapothole/core/utils/components/custom_button.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/constants/app_icons.dart';
+import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 import 'package:jourapothole/core/wrappers/body_wrapper.dart';
 import 'package:jourapothole/features/auth/components/auth_card.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
@@ -160,25 +160,23 @@ class SignInScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               SizedBox(height: 25.h),
-              CustomButton(
-                buttonTitle: 'SignIn',
-                onTap: () {
-                  // --- UPDATE VALIDATION CALL ---
-                  if (_formKey.currentState?.validate() ?? false) {
-                    // <<< UPDATE THIS LINE
-                    // TODO: Call actual sign-in logic from controller if needed
-                    // e.g., controller.performSignIn();
-                    print('Validation successful, navigating...');
-                    Get.offAll(
-                      () => const MainParentScreen(),
-                    ); // Use offAll to clear auth stack
-                  } else {
-                    print('Validation failed');
-                  }
-                },
-              ),
+              Obx(() {
+                return controller.isLoading.value
+                    ? const Center(child: CircularProgressIndicator())
+                    : CustomButton(
+                      buttonTitle: 'SignIn',
+                      onTap: () {
+                        // --- UPDATE VALIDATION CALL ---
+                        if (_formKey.currentState?.validate() ?? false) {
+                          print('Validation successful, navigating...');
+                          controller.signInUser();
+                        } else {
+                          print('Validation failed');
+                        }
+                      },
+                    );
+              }),
               SizedBox(height: 30.h),
               // ... (Or Continue With Row) ...
               Row(/* ... Divider ... */),

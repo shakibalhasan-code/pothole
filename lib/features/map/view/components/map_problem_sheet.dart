@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jourapothole/core/constants/app_images.dart';
+import 'package:jourapothole/core/utils/constants/app_images.dart';
 
 class ProblemBottomSheet extends StatelessWidget {
   const ProblemBottomSheet({super.key});

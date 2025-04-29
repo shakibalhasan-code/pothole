@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/instance_manager.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
-import 'package:jourapothole/core/constants/app_images.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/constants/app_images.dart';
 import 'package:jourapothole/features/map/view/components/map_problem_sheet.dart';
 import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet.dart';
 

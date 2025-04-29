@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:jourapothole/core/routes/app_pages.dart';
-import 'package:jourapothole/core/themes/app_theme.dart';
+import 'package:jourapothole/core/utils/routes/app_pages.dart';
+import 'package:jourapothole/core/utils/themes/app_theme.dart';
 import 'package:jourapothole/core/utils/loading_controller.dart';
 import 'package:jourapothole/core/config/app_constants.dart';
 // *** Ensure this import points to the GENERATED file ***
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Correct import
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
