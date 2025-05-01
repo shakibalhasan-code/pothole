@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
-import 'package:jourapothole/core/components/custom_button.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/components/custom_button.dart';
 import 'package:jourapothole/features/reports/controllers/report_controller.dart';
 
 class PotholeReportBottomSheet extends StatefulWidget {

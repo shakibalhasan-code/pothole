@@ -2,10 +2,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:jourapothole/core/components/custom_button.dart';
-import 'package:jourapothole/core/constants/app_images.dart';
-import 'package:jourapothole/core/constants/app_text_styles.dart';
-import 'package:jourapothole/core/routes/app_pages.dart';
+import 'package:jourapothole/core/utils/components/custom_button.dart';
+import 'package:jourapothole/core/utils/constants/app_images.dart';
+import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
+import 'package:jourapothole/core/utils/routes/app_pages.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 
 class OnBoardingScreen extends StatelessWidget {

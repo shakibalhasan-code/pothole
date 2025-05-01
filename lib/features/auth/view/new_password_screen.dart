@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:jourapothole/core/components/custom_button.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
-import 'package:jourapothole/core/constants/app_icons.dart';
-import 'package:jourapothole/core/constants/app_text_styles.dart';
+import 'package:jourapothole/core/utils/components/custom_button.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/constants/app_icons.dart';
+import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 import 'package:jourapothole/features/auth/view/sign_in_screen.dart';
 
@@ -170,7 +170,7 @@ class PassSetScreen extends StatelessWidget {
                         // e.g., controller.performSetPassword();
                         print('Password reset validation successful');
                         // Navigate to SignIn screen, clearing the stack up to it
-                        Get.offAll(() => SignInScreen());
+                        controller.resetPassword();
                       } else {
                         print('Password reset validation failed');
                       }

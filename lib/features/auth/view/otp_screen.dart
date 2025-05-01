@@ -4,9 +4,9 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:jourapothole/core/components/custom_button.dart';
-import 'package:jourapothole/core/constants/app_colors.dart';
-import 'package:jourapothole/core/constants/app_text_styles.dart';
+import 'package:jourapothole/core/utils/components/custom_button.dart';
+import 'package:jourapothole/core/utils/constants/app_colors.dart';
+import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 import 'package:jourapothole/features/auth/view/new_password_screen.dart';
 
@@ -53,6 +53,7 @@ class OtpScreen extends StatelessWidget {
                       //runs when a code is typed in
                       onCodeChanged: (String code) {
                         //handle validation or checks here
+                        authContrller.otp.value = code;
                       },
                       //runs when every textfield is filled
                       // onSubmit: (String verificationCode) async {
@@ -69,10 +70,16 @@ class OtpScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 180.h),
-            CustomButton(
-              buttonTitle: 'Continue',
-              onTap: () => Get.to(PassSetScreen()),
-            ),
+            Obx(() {
+              return authContrller.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : CustomButton(
+                    buttonTitle: 'Continue',
+                    onTap: () {
+                      authContrller.verifyOtp();
+                    },
+                  );
+            }),
             SizedBox(height: 80.h),
           ],
         ),

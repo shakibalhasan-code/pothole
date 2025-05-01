@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:jourapothole/core/constants/app_images.dart';
+import 'package:jourapothole/core/utils/constants/app_images.dart';
 import 'package:jourapothole/features/main_tab/controller/bottom_nav_controller.dart';
 
 class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
