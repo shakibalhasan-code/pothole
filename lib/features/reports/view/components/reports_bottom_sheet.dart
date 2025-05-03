@@ -233,7 +233,7 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 // REMOVED const from Center because its child Text uses a non-const color
-                child: Center(
+                child: const Center(
                   child: Column(
                     children: [
                       // Icon can be const if color is const, but keep it non-const for consistency if parent isn't const
@@ -241,7 +241,7 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
                         Icons.upload,
                         color: Colors.black,
                       ), // Colors.black IS const
-                      const SizedBox(height: 4), // const is fine here
+                      SizedBox(height: 4), // const is fine here
                       Text(
                         // Text cannot be const because TextStyle uses non-const color
                         'Photo or video Upload',

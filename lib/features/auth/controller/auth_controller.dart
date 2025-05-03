@@ -33,6 +33,7 @@ class AuthController extends GetxController {
       TextEditingController(); // Used in signUp validation
 
   var otp = ''.obs;
+  var tempTokenReset = ''.obs;
 
   final isRemembered = false.obs; // Unused in provided methods
   final isPasswordVisible = false.obs;
@@ -88,7 +89,7 @@ class AuthController extends GetxController {
           final token = body['data']['accessToken'];
           // TODO: Store auth token/user data from responseBody
           await PrefHelper.saveData(Utils.token, token); // Await saveData
-
+          printInfo(info: '=====>>>>> token: $token');
           Get.offAll(() => const MainParentScreen());
         } else {
           // Handle case where response body structure is unexpected
@@ -126,34 +127,19 @@ class AuthController extends GetxController {
       if (firstNameController.text.isEmpty ||
           lastNameController.text.isEmpty ||
           emailController.text.isEmpty ||
-          passwordController
-              .text
-              .isEmpty || // Assuming passwordController is used for signup
-          newPasswordController
-              .text
-              .isEmpty || // Assuming newPassword/rePassword are required for signup
-          rePasswordController.text.isEmpty) {
+          passwordController.text.isEmpty) {
         GlobWidgetHelper.showToast(
           isSuccess: false,
           message: "All fields are required for signup.",
         );
         return; // Stop execution
       }
-      if (newPasswordController.text != rePasswordController.text) {
-        GlobWidgetHelper.showToast(
-          isSuccess: false,
-          message: "Passwords do not match.",
-        );
-        return;
-      }
-      // Optional: Add email format validation
 
       final data = {
         'firstName': firstNameController.text.trim(),
         'lastName': lastNameController.text.trim(),
         'email': emailController.text.trim(),
-        'password':
-            newPasswordController.text, // Use the new password for signup
+        'password': passwordController.text, // Use the new password for signup
         // Include other fields like phoneNumber if required by API
       };
 
@@ -165,15 +151,13 @@ class AuthController extends GetxController {
 
       // Check status code AFTER the API call returns the http.Response
       if (response.statusCode >= 200 && response.statusCode < 300) {
+        Get.back();
         // TODO: Decide the next step - auto-login? Show success screen? Navigate to login?
         GlobWidgetHelper.showToast(
           isSuccess: true,
           message: "Signup successful!",
         );
-        // Often, after signup, you navigate to the login screen
-        // Or perhaps auto-login the user if the API returns a token
-        // For now, let's navigate back to the initial login/signup screen
-        // Assuming your initial screen is the one controlling AuthController's pageController
+
         pageController.animateToPage(
           0, // Assuming 0 is the login page index
           duration: const Duration(milliseconds: 300),
@@ -226,16 +210,38 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> resendOTP() async {
+    try {
+      isLoading.value = true;
+      final data = {'email': emailController.text};
+      final response = await ApiServices.postData(
+        body: data,
+        url: ApiEndpoints.forgotPassword,
+      );
+      if (response.statusCode == 200) {}
+    } catch (e) {
+      printInfo(info: e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   Future<void> verifyOtp() async {
     try {
       isLoading.value = true;
-      final data = {'email': emailController.text, 'oneTimeCode': otp};
+      final data = {'email': emailController.text, 'oneTimeCode': otp.value};
       isLoading.value = true;
       final response = await ApiServices.postData(
         body: data,
         url: ApiEndpoints.verifyEmail,
       );
       if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
+        final tempToken = body['data'];
+        tempTokenReset.value = tempToken;
+        await PrefHelper.saveData(Utils.tempToken, tempToken);
+        printError(info: '=========>>>>>>>> ${tempTokenReset.value}');
+
         Get.to(PassSetScreen());
       }
     } catch (e) {
@@ -246,22 +252,38 @@ class AuthController extends GetxController {
   }
 
   Future<void> resetPassword() async {
+    print('=== resetPassword called ===');
     try {
+      isLoading.value = true;
+
+      final token = await PrefHelper.getData(Utils.token);
+      print('Token: $token');
+
       final data = {
         'newPassword': newPasswordController.text,
         'confirmPassword': rePasswordController.text,
       };
 
+      print('Sending Data: $data');
+
       final response = await ApiServices.postData(
         body: data,
         url: ApiEndpoints.changePassword,
+        headers: {'Authorization': tempTokenReset.value},
       );
+
+      print('Response Status: ${response.statusCode}');
+      print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         Get.offAll(() => SignInScreen());
+      } else {
+        Get.snackbar('Failed', 'Check your credentials or try again');
       }
     } catch (e) {
-      printError(info: e.toString());
+      printError(info: 'RESET ERROR: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 }

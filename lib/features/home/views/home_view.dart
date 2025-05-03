@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:jourapothole/core/utils/components/app_bar.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 import 'package:jourapothole/core/utils/constants/app_images.dart';
+import 'package:jourapothole/features/home/controllers/home_controller.dart';
 import 'package:jourapothole/features/main_tab/controller/bottom_nav_controller.dart';
 import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet.dart';
 import 'package:jourapothole/features/reports/view/components/reports_details.dart';
@@ -14,6 +16,7 @@ class HomeView extends StatelessWidget {
   HomeView({super.key});
 
   final navController = Get.find<BottomNavController>();
+  final homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -194,34 +197,67 @@ class HomeView extends StatelessWidget {
             ),
 
             Expanded(
-              child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 5.h),
-                    child: _buildReportCard(
-                      'Pothole',
-                      '2972 Westheimer Rd. Santa Ana',
-                      'Fixed',
-                      Colors.green,
-                      () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: AppColors.whiteColor,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
-                          ),
-                          builder:
-                              (context) => const ReportProblemBottomSheet(),
-                        );
-                      },
+              // Use Obx to react to changes in allPothole or isLoading
+              child: Obx(() {
+                // Show loading indicator while fetching
+                if (homeController.isLoading.value) {
+                  return const Center(child: CupertinoActivityIndicator());
+                }
+                // Show a message if the list is empty after loading
+                else if (homeController.allPothole.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No reports found.',
+                      style: TextStyle(color: Colors.black),
                     ),
                   );
-                },
-              ),
+                }
+                // Show the list if data is available
+                else {
+                  return ListView.builder(
+                    // Use the actual number of items in the list
+                    itemCount: 3,
+                    itemBuilder: (context, index) {
+                      // Get the PotholeModel for the current item
+                      final potholeReport = homeController.allPothole[index];
+
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          top: 5.h,
+                        ), // Assuming .h is from a size utility
+                        child: _buildReportCard(
+                          potholeReport.issue,
+                          potholeReport.location.address,
+                          potholeReport.status,
+                          potholeReport.status == 'open'
+                              ? Colors.red
+                              : Colors.green,
+                          (potholeReport.images != null &&
+                                  potholeReport.images.isNotEmpty)
+                              ? potholeReport.images[0]
+                              : 'https://placehold.co/600x400',
+                          () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: AppColors.whiteColor,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                              ),
+                              builder:
+                                  (context) => ReportProblemBottomSheet(
+                                    report: potholeReport,
+                                  ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                }
+              }),
             ),
           ],
         ),
@@ -234,6 +270,7 @@ class HomeView extends StatelessWidget {
     String location,
     String status,
     Color statusColor,
+    String image,
     VoidCallback onTap,
   ) {
     return InkWell(
@@ -255,11 +292,13 @@ class HomeView extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.r),
-                child: Image.asset(
+                child: Image.network(
                   filterQuality: FilterQuality.none,
-
-                  AppImages.splashScreen1,
+                  image ?? 'https://placehold.co/600x400',
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(child: Icon(Icons.error));
+                  },
                 ),
               ), // Replace with actual image
             ),
@@ -275,28 +314,6 @@ class HomeView extends StatelessWidget {
                         'Issue type: $issueType',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      // Row(
-                      //   children: [
-                      //     Text(
-                      //       '\$500',
-                      //       style: TextStyle(
-                      //         color: AppColors.greenColor,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //     Text(
-                      //       '/\$2000',
-                      //       style: TextStyle(
-                      //         color: AppColors.redColor,
-                      //         fontWeight: FontWeight.bold,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const Text(
-                      //   '\$500/\$2000',
-                      //   style: TextStyle(color: AppColors.greyColor),
-                      // ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -322,7 +339,7 @@ class HomeView extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         'Issue Update:',
                         style: TextStyle(color: Colors.black, fontSize: 14),
                       ),

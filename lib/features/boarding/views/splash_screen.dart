@@ -3,15 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jourapothole/core/utils/routes/app_pages.dart';
+import 'package:jourapothole/features/boarding/controller/splash_controller.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+  SplashScreen({super.key});
+
+  final splashController = Get.put(SplashController());
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 2), () {
-      Get.offNamed(Routes.onBoarding);
-    });
     return Scaffold(
       body: SafeArea(
         child: Center(

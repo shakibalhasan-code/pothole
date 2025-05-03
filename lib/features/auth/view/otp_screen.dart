@@ -22,9 +22,9 @@ class OtpScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Get.back(),
-          icon: Icon(Icons.arrow_back_ios_new, color: Colors.black),
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black),
         ),
-        title: Text('Verify'),
+        title: const Text('Verify'),
       ),
 
       body: Padding(
@@ -44,26 +44,16 @@ class OtpScreen extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OtpTextField(
-                      fieldHeight: 61.h,
-                      fieldWidth: 71.w,
-                      numberOfFields: 4,
+                      numberOfFields: 6,
                       borderColor: Color.fromARGB(255, 34, 31, 41),
-                      //set to true to show as box or false to show as dash
                       showFieldAsBox: true,
-                      //runs when a code is typed in
                       onCodeChanged: (String code) {
-                        //handle validation or checks here
+                        // You can use this if you want to live-update, optional
                         authContrller.otp.value = code;
                       },
-                      //runs when every textfield is filled
-                      // onSubmit: (String verificationCode) async {
-                      //   authContrller.otpController.text = verificationCode;
-                      //   await authContrller.verifyOtp(
-                      //     email,
-                      //     verificationCode,
-                      //     isForgetPass,
-                      //   );
-                      // }, // end onSubmit
+                      onSubmit: (String verificationCode) {
+                        authContrller.otp.value = verificationCode;
+                      },
                     ),
                   ),
                 ],
@@ -80,6 +70,13 @@ class OtpScreen extends StatelessWidget {
                     },
                   );
             }),
+            SizedBox(height: 10.h),
+            TextButton(
+              onPressed: () {
+                authContrller.resendOTP();
+              },
+              child: Text('Resend'),
+            ),
             SizedBox(height: 80.h),
           ],
         ),

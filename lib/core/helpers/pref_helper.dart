@@ -22,7 +22,7 @@ class PrefHelper {
     }
   }
 
-  static Future<String?> getData(String key) async {
+  static Future<String> getData(String key) async {
     try {
       final SharedPreferences pref =
           await _getInstance(); // Get the async instance
@@ -30,10 +30,10 @@ class PrefHelper {
         key,
       ); // getString is synchronous *after* getting the instance
       // print('PrefHelper: Retrieved data for key "$key": $data'); // Optional: for debugging
-      return data;
+      return data ?? '';
     } catch (e) {
       debugPrint('PrefHelper getData Error for key "$key": $e');
-      return null; // Return null if an error occurs
+      return ''; // Return null if an error occurs
     }
   }
 
