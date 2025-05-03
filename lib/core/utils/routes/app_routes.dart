@@ -12,4 +12,6 @@ abstract class Routes {
 
   // Home Features
   static const home = '/home';
+
+  static const mainParent = '/mainParent';
 }

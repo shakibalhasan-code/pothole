@@ -8,6 +8,7 @@ import 'package:jourapothole/features/auth/view/sign_up_screen.dart';
 import 'package:jourapothole/features/boarding/views/splash_screen.dart';
 import 'package:jourapothole/features/home/bindings/home_binding.dart';
 import 'package:jourapothole/features/home/views/home_view.dart';
+import 'package:jourapothole/features/main_tab/main_parent_screen.dart';
 
 part 'app_routes.dart';
 
@@ -18,7 +19,7 @@ class AppPages {
     // Auth Features
     GetPage(
       name: Routes.splash,
-      page: () => const SplashScreen(),
+      page: () => SplashScreen(),
       binding: AuthBinding(),
     ),
     GetPage(
@@ -49,5 +50,10 @@ class AppPages {
 
     // Home Features
     GetPage(name: Routes.home, page: () => HomeView(), binding: HomeBinding()),
+    GetPage(
+      name: Routes.mainParent,
+      page: () => const MainParentScreen(),
+      binding: HomeBinding(),
+    ),
   ];
 }

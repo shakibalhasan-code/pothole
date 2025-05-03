@@ -9,6 +9,8 @@ class GlobWidgetHelper {
       message,
       backgroundColor: isSuccess ? Colors.green : Colors.red,
       colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+      borderRadius: 30,
     );
   }
 }

@@ -19,7 +19,7 @@ class DrafsScreen extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        title: Text('Drafts Reports'),
+        title: const Text('Drafts Reports'),
       ),
       body: ListView.builder(
         itemCount: 10,

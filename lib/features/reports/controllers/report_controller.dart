@@ -119,15 +119,15 @@ class ReportController extends GetxController {
                 captureImageFromCamera(); // Call the camera capture method
               },
             ),
-            // Optional: Add video capture option
-            // ListTile(
-            //   leading: const Icon(Icons.videocam),
-            //   title: const Text('Record Video'),
-            //   onTap: () {
-            //     Get.back();
-            //     captureVideoFromCamera();
-            //   },
-            // ),
+            //  Optional: Add video capture option
+            ListTile(
+              leading: const Icon(Icons.videocam),
+              title: const Text('Record Video'),
+              onTap: () {
+                Get.back();
+                captureVideoFromCamera();
+              },
+            ),
           ],
         ),
       ),

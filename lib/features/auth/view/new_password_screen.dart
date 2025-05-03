@@ -11,7 +11,6 @@ import 'package:jourapothole/features/auth/view/sign_in_screen.dart';
 
 class PassSetScreen extends StatelessWidget {
   PassSetScreen({super.key});
-
   final controller = Get.find<AuthController>();
   // --- ADD LOCAL KEY ---
   final _passSetFormKey = GlobalKey<FormState>(); // <<< ADD THIS LINE
@@ -77,47 +76,49 @@ class PassSetScreen extends StatelessWidget {
                   Text('Password', style: AppTextStyles.bodyMedium),
                   SizedBox(height: 5.h),
                   // Use Obx for visibility toggle if needed later
-                  TextFormField(
-                    controller: controller.newPasswordController,
-                    obscureText:
-                        !controller
-                            .isPasswordVisible
-                            .value, // Use controller state
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      // Add more complex validation if needed (uppercase, number, symbol)
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Enter new password', // Update hint
-                      contentPadding: contentPadding,
-                      prefixIcon: Padding(
-                        padding: iconPadding,
-                        child: SvgPicture.asset(
-                          AppIcons.passwordIcon,
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
+                  Obx(() {
+                    return TextFormField(
+                      controller: controller.newPasswordController,
+                      obscureText:
+                          !controller
+                              .isPasswordVisible
+                              .value, // Use controller state
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a password';
+                        }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        // Add more complex validation if needed (uppercase, number, symbol)
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Enter new password', // Update hint
+                        contentPadding: contentPadding,
+                        prefixIcon: Padding(
+                          padding: iconPadding,
+                          child: SvgPicture.asset(
+                            AppIcons.passwordIcon,
+                            width: 20.w,
+                            height: 20.h,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                          // Add visibility toggle
+                          padding: iconPadding,
+                          icon: SvgPicture.asset(
+                            AppIcons.eyeVisibleIcon,
+                            width: 20.w,
+                            height: 20.h,
+                            fit: BoxFit.contain,
+                          ),
+                          onPressed: controller.togglePasswordVisibility,
                         ),
                       ),
-                      suffixIcon: IconButton(
-                        // Add visibility toggle
-                        padding: iconPadding,
-                        icon: SvgPicture.asset(
-                          AppIcons.eyeVisibleIcon,
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
-                        ),
-                        onPressed: controller.togglePasswordVisibility,
-                      ),
-                    ),
-                  ),
+                    );
+                  }),
                   SizedBox(height: 15.h),
 
                   /// Confirm Password
@@ -127,36 +128,49 @@ class PassSetScreen extends StatelessWidget {
                   ), // Changed label
                   SizedBox(height: 5.h),
                   // Use Obx for visibility toggle if needed later
-                  TextFormField(
-                    controller: controller.rePasswordController,
-                    obscureText:
-                        !controller
-                            .isPasswordVisible
-                            .value, // Use controller state
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please re-enter password';
-                      }
-                      if (value != controller.newPasswordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Re-enter new password', // Update hint
-                      contentPadding: contentPadding,
-                      prefixIcon: Padding(
-                        padding: iconPadding,
-                        child: SvgPicture.asset(
-                          AppIcons.passwordIcon,
-                          width: 20.w,
-                          height: 20.h,
-                          fit: BoxFit.contain,
+                  Obx(() {
+                    return TextFormField(
+                      controller: controller.rePasswordController,
+                      obscureText:
+                          !controller
+                              .isPasswordVisible
+                              .value, // Use controller state
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a password';
+                        }
+                        if (value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        // Add more complex validation if needed (uppercase, number, symbol)
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Enter new password', // Update hint
+                        contentPadding: contentPadding,
+                        prefixIcon: Padding(
+                          padding: iconPadding,
+                          child: SvgPicture.asset(
+                            AppIcons.passwordIcon,
+                            width: 20.w,
+                            height: 20.h,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        suffixIcon: IconButton(
+                          // Add visibility toggle
+                          padding: iconPadding,
+                          icon: SvgPicture.asset(
+                            AppIcons.eyeVisibleIcon,
+                            width: 20.w,
+                            height: 20.h,
+                            fit: BoxFit.contain,
+                          ),
+                          onPressed: controller.togglePasswordVisibility,
                         ),
                       ),
-                      // No suffix needed usually for confirm password, but can add if desired
-                    ),
-                  ),
+                    );
+                  }),
                   SizedBox(height: 32.h),
 
                   /// Continue Button
@@ -166,7 +180,7 @@ class PassSetScreen extends StatelessWidget {
                       // --- UPDATE VALIDATION CALL ---
                       if (_passSetFormKey.currentState?.validate() ?? false) {
                         // <<< UPDATE THIS LINE
-                        // TODO: Call actual password set logic from controller
+
                         // e.g., controller.performSetPassword();
                         print('Password reset validation successful');
                         // Navigate to SignIn screen, clearing the stack up to it
@@ -185,7 +199,4 @@ class PassSetScreen extends StatelessWidget {
       ),
     );
   }
-
-  // Dummy icon path - replace with your actual eye hidden icon path
-  static const String _eyeHiddenIconPath = AppIcons.eyeVisibleIcon; // Replace!
 }
