@@ -61,7 +61,7 @@ class ReportsScreen extends StatelessWidget {
                       (potholeReport.images != null &&
                               potholeReport.images.isNotEmpty)
                           ? potholeReport.images[0]
-                          : 'https://placehold.co/600x400', // fallback image
+                          : 'https://placehold.co/600x400',
                       () {
                         showModalBottomSheet(
                           context: context,

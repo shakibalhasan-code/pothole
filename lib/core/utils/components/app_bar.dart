@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:jourapothole/core/services/location_services.dart';
 import 'package:jourapothole/core/utils/constants/app_images.dart';
+import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 import 'package:jourapothole/features/main_tab/controller/bottom_nav_controller.dart';
 
 class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -17,6 +19,7 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   final navController = Get.find<BottomNavController>();
+  final locationServices = Get.find<LocationServices>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +57,18 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   const SizedBox(height: 4),
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.location_on, color: Colors.blue, size: 16),
                       SizedBox(width: 4),
-                      Text(
-                        '2972 Westheimer Rd. Santa Ana',
-                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                      Obx(
+                        () => Expanded(
+                          child: Text(
+                            locationServices.userCurrentLocation.value,
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),

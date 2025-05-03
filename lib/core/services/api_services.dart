@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:jourapothole/core/helpers/widget_helper.dart'; // Assuming this works
 
@@ -37,17 +39,45 @@ class ApiServices {
   }
 
   /// getUserData
-  static Future<http.Response> getData({required String url}) async {
+  static Future<http.Response> getData({
+    required String url,
+    Map<String, String>? headers,
+  }) async {
     try {
-      final request = await http.get(Uri.parse(url));
-      _handleResponseFeedback(request); // Show toast based on response
-      return request; // <-- Return the http.Response object
-    } catch (e) {
-      print("API GET Error: $e"); // More specific logging
+      final uri = Uri.tryParse(url);
+      if (uri == null) {
+        throw FormatException("Invalid URL: $url");
+      }
+
+      final response = await http.get(uri, headers: headers ?? {});
+
+      _handleResponseFeedback(response); // Custom feedback function
+
+      return response;
+    } on SocketException {
       GlobWidgetHelper.showToast(
         isSuccess: false,
-        message: 'Network error occurred',
-      ); // Show network error toast
+        message: 'No Internet connection',
+      );
+      rethrow;
+    } on TimeoutException {
+      GlobWidgetHelper.showToast(
+        isSuccess: false,
+        message: 'Request timed out',
+      );
+      rethrow;
+    } on FormatException catch (e) {
+      GlobWidgetHelper.showToast(
+        isSuccess: false,
+        message: 'Invalid URL: ${e.message}',
+      );
+      rethrow;
+    } catch (e) {
+      print("API GET Error: $e");
+      GlobWidgetHelper.showToast(
+        isSuccess: false,
+        message: 'Something went wrong',
+      );
       rethrow;
     }
   }

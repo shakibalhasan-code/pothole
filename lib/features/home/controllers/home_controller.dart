@@ -9,9 +9,9 @@ class HomeController extends GetxController {
   RxBool isLoading = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    getPotholeData();
+    await getPotholeData();
   }
 
   Future<void> getPotholeData() async {
