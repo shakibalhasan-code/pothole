@@ -7,6 +7,7 @@ class ApiEndpoints {
   static String signUp = '$baseUrl/user';
   static String getMe = '$baseUrl/user/getme';
   static String updateProfile = '$baseUrl/user/getme';
+  static String getMyReports = '$baseUrl/pothole/my-reports';
 
   static String verifyEmail = '$authPath/verify-email';
   static String forgotPassword = '$authPath/forgot-password';

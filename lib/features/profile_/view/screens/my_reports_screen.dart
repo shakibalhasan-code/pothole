@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 import 'package:jourapothole/core/utils/constants/app_images.dart';
-import 'package:jourapothole/features/reports/view/components/reports_details.dart';
+import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
 
 class MyReportsScreen extends StatelessWidget {
-  const MyReportsScreen({super.key});
+  MyReportsScreen({super.key});
+
+  final profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,34 +25,35 @@ class MyReportsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15.w),
-        child: ListView.builder(
-          padding: EdgeInsets.only(top: 5.h),
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.only(top: 5.h),
-              child: _buildReportCard(
-                'Pothole',
-                '2972 Westheimer Rd. Santa Ana',
-                'Fixed',
-                Colors.green,
-                () {
-                  // showModalBottomSheet(
-                  //   context: context,
-                  //   isScrollControlled: true,
-                  //   backgroundColor: AppColors.whiteColor,
-                  //   shape: const RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.vertical(
-                  //       top: Radius.circular(20),
-                  //     ),
-                  //   ),
-                  //   builder: (context) => const ReportProblemBottomSheet(),
-                  // );
-                },
+        child: Obx(() {
+          if (profileController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (profileController.allMyPothole.isEmpty) {
+            return const Center(
+              child: Text(
+                'No reports found.',
+                style: TextStyle(color: Colors.black),
               ),
             );
-          },
-        ),
+          } else {
+            return ListView.builder(
+              itemCount: profileController.allMyPothole.length,
+              itemBuilder: (context, index) {
+                final report = profileController.allMyPothole[index];
+                return Padding(
+                  padding: EdgeInsets.only(top: 5.h),
+                  child: _buildReportCard(
+                    report.issue,
+                    report.location.address,
+                    report.status,
+                    report.status == 'open' ? Colors.red : Colors.green,
+                    () {},
+                  ),
+                );
+              },
+            );
+          }
+        }),
       ),
     );
   }
@@ -87,7 +89,7 @@ class MyReportsScreen extends StatelessWidget {
                   AppImages.splashScreen1,
                   fit: BoxFit.cover,
                 ),
-              ), // Replace with actual image
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(

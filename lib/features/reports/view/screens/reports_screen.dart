@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
-import 'package:jourapothole/core/utils/constants/app_images.dart';
 import 'package:jourapothole/features/home/controllers/home_controller.dart';
 import 'package:jourapothole/features/reports/view/components/reports_details.dart';
 
@@ -19,7 +17,6 @@ class ReportsScreen extends StatelessWidget {
         title: const Text('Reports'),
         automaticallyImplyLeading: false, // Remove back button if not needed
       ),
-
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         child: Expanded(
@@ -42,7 +39,7 @@ class ReportsScreen extends StatelessWidget {
             else {
               return ListView.builder(
                 // Use the actual number of items in the list
-                itemCount: 3,
+                itemCount: homeController.allPothole.length,
                 itemBuilder: (context, index) {
                   // Get the PotholeModel for the current item
                   final potholeReport = homeController.allPothole[index];

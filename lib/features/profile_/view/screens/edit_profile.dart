@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/state_manager.dart';
 import 'package:jourapothole/core/models/profile_model.dart';
 import 'package:jourapothole/core/utils/components/custom_button.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
+import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
 
 class EditProfile extends StatefulWidget {
   final ProfileModel profileModel;
-  const EditProfile({super.key,required this.profileModel});
+  const EditProfile({super.key, required this.profileModel});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -19,8 +22,9 @@ class _EditProfileState extends State<EditProfile> {
   // final TextEditingController addressController = TextEditingController();
   DateTime? selectedDate;
 
+  final profileController = Get.find<ProfileController>();
 
-@override
+  @override
   void initState() {
     super.initState();
     fullNameController.text = widget.profileModel.fullName ?? '';
@@ -150,7 +154,7 @@ class _EditProfileState extends State<EditProfile> {
                 hintText: 'Enter your Email...',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: Colors.black),
+                  borderSide: const BorderSide(color: Colors.black),
                 ),
               ),
             ),
@@ -189,7 +193,16 @@ class _EditProfileState extends State<EditProfile> {
             //   ),
             // ),
             const SizedBox(height: 24),
-            CustomButton(buttonTitle: 'Update', onTap: () {}),
+            Obx(() {
+              return profileController.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : CustomButton(
+                    buttonTitle: 'Update',
+                    onTap: () {
+                      profileController.updateProfile();
+                    },
+                  );
+            }),
           ],
         ),
       ),
