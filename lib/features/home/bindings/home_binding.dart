@@ -5,7 +5,7 @@ import 'package:jourapothole/features/home/controllers/home_controller.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<HomeController>(() => HomeController());
-    Get.lazyPut<LocationServices>(() => LocationServices());
+    Get.lazyPut<HomeController>(() => HomeController(),fenix: true);
+    Get.lazyPut<LocationServices>(() => LocationServices(),fenix: true);
   }
 }

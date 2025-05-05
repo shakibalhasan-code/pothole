@@ -120,19 +120,16 @@ class ReportProblemBottomSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Row(
+               Row(
                 children: [
 
-                  const Text(
+                   Text(
                     'Status : ',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   Text(
                     report.status, // Display dynamic status
 
-                  Text(
-                    'Issue : ',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   Text(
                     'Open',

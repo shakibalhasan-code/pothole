@@ -151,13 +151,13 @@ class AuthController extends GetxController {
 
       // Check status code AFTER the API call returns the http.Response
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        Get.back();
+        
         // TODO: Decide the next step - auto-login? Show success screen? Navigate to login?
         GlobWidgetHelper.showToast(
           isSuccess: true,
           message: "Signup successful!",
         );
-
+        Get.offAll(() =>  SignInScreen());
         pageController.animateToPage(
           0, // Assuming 0 is the login page index
           duration: const Duration(milliseconds: 300),

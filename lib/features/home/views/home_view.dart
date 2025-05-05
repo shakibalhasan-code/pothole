@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:jourapothole/core/utils/components/app_bar.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 import 'package:jourapothole/core/utils/constants/app_images.dart';
@@ -16,7 +15,7 @@ class HomeView extends StatelessWidget {
   HomeView({super.key});
 
   final navController = Get.find<BottomNavController>();
-  final homeController = Get.find<HomeController>();
+  final homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {

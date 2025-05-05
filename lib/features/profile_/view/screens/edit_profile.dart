@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jourapothole/core/models/profile_model.dart';
 import 'package:jourapothole/core/utils/components/custom_button.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+  final ProfileModel profileModel;
+  const EditProfile({super.key,required this.profileModel});
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -13,17 +15,28 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
+  // final TextEditingController phoneController = TextEditingController();
+  // final TextEditingController addressController = TextEditingController();
   DateTime? selectedDate;
+
+
+@override
+  void initState() {
+    super.initState();
+    fullNameController.text = widget.profileModel.fullName ?? '';
+    nicknameController.text = widget.profileModel.firstName ?? '';
+    emailController.text = widget.profileModel.email ?? '';
+    // phoneController.text = widget.profileModel.phone ?? '';
+    // addressController.text = widget.profileModel.address ?? '';
+  }
 
   @override
   void dispose() {
     fullNameController.dispose();
     nicknameController.dispose();
     emailController.dispose();
-    phoneController.dispose();
-    addressController.dispose();
+    // phoneController.dispose();
+    // addressController.dispose();
     super.dispose();
   }
 
@@ -141,40 +154,40 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            const Text(
-              'Phone',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: phoneController,
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                hintText: 'Enter your Phone...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.primaryLightColor),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Address',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 8),
-            TextFormField(
-              controller: addressController,
-              maxLines: 3,
-              decoration: InputDecoration(
-                hintText: 'Address',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.primaryLightColor),
-                ),
-              ),
-            ),
+            // const SizedBox(height: 16),
+            // const Text(
+            //   'Phone',
+            //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            // ),
+            // const SizedBox(height: 8),
+            // TextFormField(
+            //   controller: phoneController,
+            //   keyboardType: TextInputType.phone,
+            //   decoration: InputDecoration(
+            //     hintText: 'Enter your Phone...',
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(8),
+            //       borderSide: BorderSide(color: AppColors.primaryLightColor),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 16),
+            // const Text(
+            //   'Address',
+            //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            // ),
+            // const SizedBox(height: 8),
+            // TextFormField(
+            //   controller: addressController,
+            //   maxLines: 3,
+            //   decoration: InputDecoration(
+            //     hintText: 'Address',
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(8),
+            //       borderSide: BorderSide(color: AppColors.primaryLightColor),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(height: 24),
             CustomButton(buttonTitle: 'Update', onTap: () {}),
           ],
