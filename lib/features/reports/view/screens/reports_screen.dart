@@ -19,69 +19,63 @@ class ReportsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w),
-        child: Expanded(
-          // Use Obx to react to changes in allPothole or isLoading
-          child: Obx(() {
-            // Show loading indicator while fetching
-            if (homeController.isLoading.value) {
-              return const Center(child: CupertinoActivityIndicator());
-            }
-            // Show a message if the list is empty after loading
-            else if (homeController.allPothole.isEmpty) {
-              return const Center(
-                child: Text(
-                  'No reports found.',
-                  style: TextStyle(color: Colors.black),
-                ),
-              );
-            }
-            // Show the list if data is available
-            else {
-              return ListView.builder(
-                // Use the actual number of items in the list
-                itemCount: homeController.allPothole.length,
-                itemBuilder: (context, index) {
-                  // Get the PotholeModel for the current item
-                  final potholeReport = homeController.allPothole[index];
+        child: Obx(() {
+          // Show loading indicator while fetching
+          if (homeController.isLoading.value) {
+            return const Center(child: CupertinoActivityIndicator());
+          }
+          // Show a message if the list is empty after loading
+          else if (homeController.allPothole.isEmpty) {
+            return const Center(
+              child: Text(
+                'No reports found.',
+                style: TextStyle(color: Colors.black),
+              ),
+            );
+          }
+          // Show the list if data is available
+          else {
+            return ListView.builder(
+              // Use the actual number of items in the list
+              itemCount: homeController.allPothole.length,
+              itemBuilder: (context, index) {
+                // Get the PotholeModel for the current item
+                final potholeReport = homeController.allPothole[index];
 
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      top: 5.h,
-                    ), // Assuming .h is from a size utility
-                    child: _buildReportCard(
-                      potholeReport.issue,
-                      potholeReport.location.address,
-                      potholeReport.status,
-                      potholeReport.status == 'open'
-                          ? Colors.red
-                          : Colors.green,
-                      (potholeReport.images != null &&
-                              potholeReport.images.isNotEmpty)
-                          ? potholeReport.images[0]
-                          : 'https://placehold.co/600x400',
-                      () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: AppColors.whiteColor,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(20),
-                            ),
+                return Padding(
+                  padding: EdgeInsets.only(
+                    top: 5.h,
+                  ), // Assuming .h is from a size utility
+                  child: _buildReportCard(
+                    potholeReport.issue,
+                    potholeReport.location.address,
+                    potholeReport.status,
+                    potholeReport.status == 'open' ? Colors.red : Colors.green,
+                    (potholeReport.images != null &&
+                            potholeReport.images.isNotEmpty)
+                        ? potholeReport.images[0]
+                        : 'https://placehold.co/600x400',
+                    () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: AppColors.whiteColor,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
                           ),
-                          builder:
-                              (context) => ReportProblemBottomSheet(
-                                report: potholeReport,
-                              ),
-                        );
-                      },
-                    ),
-                  );
-                },
-              );
-            }
-          }),
-        ),
+                        ),
+                        builder:
+                            (context) =>
+                                ReportProblemBottomSheet(report: potholeReport),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          }
+        }),
       ),
     );
   }
