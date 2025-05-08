@@ -72,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
                                                           .profile
                                                           .value
                                                           .image ??
-                                                      'https://www.thispersondoesnotexist.com/',
+                                                      'https://thispersondoesnotexist.com/',
                                                   fit: BoxFit.cover,
                                                   placeholder:
                                                       (
@@ -127,6 +127,7 @@ class ProfileScreen extends StatelessWidget {
                             // User Name
                             Text(
                               controller.profile.value.firstName ?? "User Name",
+
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.bold,
