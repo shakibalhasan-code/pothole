@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -5,6 +6,7 @@ import 'package:jourapothole/core/services/location_services.dart';
 import 'package:jourapothole/core/utils/constants/app_images.dart';
 import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 import 'package:jourapothole/features/main_tab/controller/bottom_nav_controller.dart';
+import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
 
 class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget actionChildren;
@@ -20,6 +22,7 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final navController = Get.find<BottomNavController>();
   final locationServices = Get.find<LocationServices>();
+  final profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +36,22 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
                   navController.changePage(4);
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
+                  padding: EdgeInsets.only(left: 16.0),
                   child: CircleAvatar(
-                    backgroundImage: const AssetImage(AppImages.avatar),
                     radius: 20,
+                    child: Obx(() {
+                      return profileController.isLoading.value
+                          ? Center(child: CupertinoActivityIndicator())
+                          : ClipOval(
+                            child: Image.network(
+                              profileController.profile.value.image ??
+                                  'https://www.thispersondoesnotexist.com/',
+                              fit: BoxFit.cover,
+                              width: 40,
+                              height: 40,
+                            ),
+                          );
+                    }),
                   ),
                 ),
               )
@@ -47,9 +62,9 @@ class GlobalAppBar extends StatelessWidget implements PreferredSizeWidget {
               ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Hey, Jasmin',
-                    style: TextStyle(
+                  Text(
+                    profileController.profile.value.firstName ?? 'User',
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

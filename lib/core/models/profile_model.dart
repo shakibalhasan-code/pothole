@@ -11,6 +11,8 @@ class ProfileModel {
   String? dateOfBirth;
   String? createdAt;
   String? updatedAt;
+  String? phoneNumber;
+  String? address;
 
   ProfileModel({
     this.id,
@@ -25,6 +27,8 @@ class ProfileModel {
     this.dateOfBirth,
     this.createdAt,
     this.updatedAt,
+    this.phoneNumber,
+    this.address,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +45,8 @@ class ProfileModel {
       dateOfBirth: json['dateOfBirth'],
       createdAt: json['createdAt'],
       updatedAt: json['updatedAt'],
+      phoneNumber: json['phoneNumber'],
+      address: json['address'],
     );
   }
 
@@ -58,6 +64,8 @@ class ProfileModel {
       'dateOfBirth': dateOfBirth,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'phoneNumber': phoneNumber,
+      'address': address,
     };
   }
 }

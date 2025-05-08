@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 import 'package:jourapothole/core/utils/constants/app_images.dart';
 import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
+import 'package:jourapothole/features/reports/view/components/reports_details.dart';
 
 class MyReportsScreen extends StatelessWidget {
   MyReportsScreen({super.key});
@@ -40,14 +41,36 @@ class MyReportsScreen extends StatelessWidget {
               itemCount: profileController.allMyPothole.length,
               itemBuilder: (context, index) {
                 final report = profileController.allMyPothole[index];
+
+                // Check if images is not empty
+                final imageUrl =
+                    report.images.isNotEmpty
+                        ? report.images[0]
+                        : 'https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg';
+
                 return Padding(
                   padding: EdgeInsets.only(top: 5.h),
                   child: _buildReportCard(
+                    imageUrl,
                     report.issue,
                     report.location.address,
                     report.status,
                     report.status == 'open' ? Colors.red : Colors.green,
-                    () {},
+                    () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: AppColors.whiteColor,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder:
+                            (context) =>
+                                ReportProblemBottomSheet(report: report),
+                      );
+                    },
                   ),
                 );
               },
@@ -59,6 +82,7 @@ class MyReportsScreen extends StatelessWidget {
   }
 
   Widget _buildReportCard(
+    String image,
     String issueType,
     String location,
     String status,
@@ -83,12 +107,49 @@ class MyReportsScreen extends StatelessWidget {
                 color: AppColors.greyColor.withOpacity(0.3),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.r),
-                child: Image.asset(
-                  filterQuality: FilterQuality.none,
-                  AppImages.splashScreen1,
-                  fit: BoxFit.cover,
-                ),
+                borderRadius: BorderRadius.circular(12),
+                child:
+                    image != null
+                        ? Image.network(
+                          image,
+                          height: 150,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder:
+                              (context, error, stackTrace) => Container(
+                                height: 150,
+                                color: Colors.grey[300],
+                                child: const Center(
+                                  child: Text('Failed to load image'),
+                                ),
+                              ),
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Container(
+                              height: 150,
+                              color: Colors.grey[200],
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!
+                                          : null,
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                        : Container(
+                          // Placeholder when no image URL is available
+                          height: 150,
+                          color: Colors.grey[300],
+                          child: const Center(
+                            child: Text('No image available'),
+                          ),
+                        ),
               ),
             ),
             const SizedBox(width: 12),

@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 class LocationServices extends GetxService {
   final userCurrentLocation = ''.obs;
 
+  double long = 0.0;
+  double latt = 0.0;
+
   @override
   void onInit() async {
     super.onInit();
@@ -52,6 +55,9 @@ class LocationServices extends GetxService {
   }
 
   Future<void> getAddressFromLatLng(Position position) async {
+    long = position.longitude;
+    latt = position.latitude;
+
     List<Placemark> placemarks = await placemarkFromCoordinates(
       position.latitude,
       position.longitude,

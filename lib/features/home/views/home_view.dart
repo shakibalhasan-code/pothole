@@ -102,7 +102,7 @@ class HomeView extends StatelessWidget {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 TextButton(
-                  onPressed: () => Get.to(DrafsScreen()),
+                  onPressed: () => Get.to(const DrafsScreen()),
                   child: const Text(
                     'SEE ALL',
                     style: TextStyle(color: AppColors.blueColor),
@@ -112,7 +112,6 @@ class HomeView extends StatelessWidget {
             ),
             SizedBox(
               height: 65.h,
-
               child: ListView.builder(
                 itemCount: 2,
                 scrollDirection: Axis.horizontal,
@@ -214,16 +213,12 @@ class HomeView extends StatelessWidget {
                 // Show the list if data is available
                 else {
                   return ListView.builder(
-                    // Use the actual number of items in the list
-                    itemCount: 3,
+                    itemCount: homeController.allPothole.length,
                     itemBuilder: (context, index) {
-                      // Get the PotholeModel for the current item
                       final potholeReport = homeController.allPothole[index];
 
                       return Padding(
-                        padding: EdgeInsets.only(
-                          top: 5.h,
-                        ), // Assuming .h is from a size utility
+                        padding: EdgeInsets.only(top: 5.h),
                         child: _buildReportCard(
                           potholeReport.issue,
                           potholeReport.location.address,
