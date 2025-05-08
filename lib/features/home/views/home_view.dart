@@ -31,14 +31,7 @@ class HomeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Map Section
-            SizedBox(
-              height: 200,
-              width: double.infinity,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12.r),
-                child: Image.asset(AppImages.map2, fit: BoxFit.cover),
-              ),
-            ),
+            SizedBox(height: 200, width: double.infinity, child: SizedBox()),
             const SizedBox(height: 16),
 
             // Buttons Section

@@ -12,7 +12,7 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Map'),
-        automaticallyImplyLeading: false, // Remove back button if not needed
+        automaticallyImplyLeading: false,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -82,6 +82,7 @@ class MapScreen extends StatelessWidget {
       height: 30,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        // ignore: deprecated_member_use
         color: color.withOpacity(0.7),
         border: Border.all(color: Colors.white, width: 2),
         boxShadow: const [

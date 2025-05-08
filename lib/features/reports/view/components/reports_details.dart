@@ -1,3 +1,4 @@
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jourapothole/core/models/pothole_model.dart';
@@ -58,46 +59,54 @@ class ReportProblemBottomSheet extends StatelessWidget {
           const SizedBox(height: 16),
 
           // 2. Display image dynamically, handle missing image
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child:
-                imageUrl != null
-                    ? Image.network(
-                      imageUrl,
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      errorBuilder:
-                          (context, error, stackTrace) => Container(
+          InkWell(
+            onTap: () {
+              if (imageUrl != null) {
+                final imageProvider = Image.network(imageUrl!).image;
+                showImageViewer(context, imageProvider);
+              }
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child:
+                  imageUrl != null
+                      ? Image.network(
+                        imageUrl!,
+                        height: 150,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder:
+                            (context, error, stackTrace) => Container(
+                              height: 150,
+                              color: Colors.grey[300],
+                              child: const Center(
+                                child: Text('Failed to load image'),
+                              ),
+                            ),
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
                             height: 150,
-                            color: Colors.grey[300],
-                            child: const Center(
-                              child: Text('Failed to load image'),
+                            color: Colors.grey[200],
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                value:
+                                    loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                              ),
                             ),
-                          ),
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Container(
-                          height: 150,
-                          color: Colors.grey[200],
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              value:
-                                  loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                    : Container(
-                      // Placeholder when no image URL is available
-                      height: 150,
-                      color: Colors.grey[300],
-                      child: const Center(child: Text('No image available')),
-                    ),
+                          );
+                        },
+                      )
+                      : Container(
+                        height: 150,
+                        color: Colors.grey[300],
+                        child: const Center(child: Text('No image available')),
+                      ),
+            ),
           ),
           const SizedBox(height: 16),
 
@@ -120,16 +129,14 @@ class ReportProblemBottomSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Row(
+              Row(
                 children: [
-
-                   Text(
+                  Text(
                     'Status : ',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   Text(
                     report.status, // Display dynamic status
-
                   ),
                   Text(
                     'Open',
