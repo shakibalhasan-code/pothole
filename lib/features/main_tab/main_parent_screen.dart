@@ -17,6 +17,7 @@ class MainParentScreen extends StatelessWidget {
     return Scaffold(
       body: PageView(
         controller: controller.pageController,
+        physics: const NeverScrollableScrollPhysics(), // 👈 disables swipe
 
         onPageChanged: controller.onPageChanged,
         children: [HomeView(), MapScreen(), ReportsScreen(), ProfileScreen()],

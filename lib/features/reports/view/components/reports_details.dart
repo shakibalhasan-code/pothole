@@ -131,7 +131,7 @@ class ReportProblemBottomSheet extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(
+                  const Text(
                     'Status : ',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
@@ -140,7 +140,6 @@ class ReportProblemBottomSheet extends StatelessWidget {
                   ),
                   Text(
                     'Open',
-
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,

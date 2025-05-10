@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:jourapothole/core/utils/components/app_bar.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 import 'package:jourapothole/core/utils/constants/app_images.dart';
+import 'package:jourapothole/features/glob_widgets/my_map_widget.dart';
 import 'package:jourapothole/features/home/controllers/home_controller.dart';
 import 'package:jourapothole/features/main_tab/controller/bottom_nav_controller.dart';
 import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet.dart';
@@ -31,7 +32,11 @@ class HomeView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Map Section
-            SizedBox(height: 200, width: double.infinity, child: SizedBox()),
+            SizedBox(
+              height: 200.h,
+              width: double.infinity,
+              child: MyMapWidget(),
+            ),
             const SizedBox(height: 16),
 
             // Buttons Section
