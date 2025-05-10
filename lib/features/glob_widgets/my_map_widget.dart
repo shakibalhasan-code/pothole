@@ -1,4 +1,3 @@
-// widgets/my_map_widget.dart (or wherever you place it)
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -30,7 +29,7 @@ class MyMapWidget extends StatelessWidget {
         },
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
-        markers: _controller.markers, // 👈 this shows pothole markers!
+        markers: _controller.markers,
       );
     });
   }
