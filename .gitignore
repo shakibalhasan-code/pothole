@@ -18,6 +18,14 @@ migrate_working_dir/
 *.iws
 .idea/
 
+
+# Ignore Android Manifest (if you're hardcoding secrets, not recommended)
+android/app/src/main/AndroidManifest.xml
+
+# Ignore iOS AppDelegate (either Swift or Obj-C)
+ios/Runner/AppDelegate.swift
+ios/Runner/AppDelegate.m
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
