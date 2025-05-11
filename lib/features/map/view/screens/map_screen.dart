@@ -1,14 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jourapothole/core/services/map_services.dart';
-import 'package:jourapothole/core/utils/constants/app_colors.dart';
-import 'package:jourapothole/core/utils/constants/app_images.dart';
 import 'package:jourapothole/features/glob_widgets/my_map_widget.dart';
-import 'package:jourapothole/features/map/view/components/map_problem_sheet.dart';
-import 'package:jourapothole/features/reports/view/components/reports_bottom_sheet.dart';
 
 class MapScreen extends StatelessWidget {
   MapScreen({super.key});

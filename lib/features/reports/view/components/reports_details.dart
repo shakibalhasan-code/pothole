@@ -56,13 +56,14 @@ class ReportProblemBottomSheet extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+
+          const SizedBox(height: 8),
 
           // 2. Display image dynamically, handle missing image
           InkWell(
             onTap: () {
               if (imageUrl != null) {
-                final imageProvider = Image.network(imageUrl!).image;
+                final imageProvider = Image.network(imageUrl).image;
                 showImageViewer(context, imageProvider);
               }
             },
@@ -102,14 +103,47 @@ class ReportProblemBottomSheet extends StatelessWidget {
                         },
                       )
                       : Container(
-                        height: 150,
+                        height: 150.h,
                         color: Colors.grey[300],
                         child: const Center(child: Text('No image available')),
                       ),
             ),
           ),
           const SizedBox(height: 16),
-
+          SizedBox(
+            height: 50.h,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: report.images.length,
+              separatorBuilder: (context, index) => const SizedBox(width: 8),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    final imageProvider =
+                        Image.network(report.images[index]).image;
+                    showImageViewer(context, imageProvider);
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(
+                      report.images[index],
+                      height: 50.h,
+                      width: 50.w,
+                      fit: BoxFit.cover,
+                      errorBuilder:
+                          (context, error, stackTrace) => Container(
+                            height: 8,
+                            color: Colors.grey[300],
+                            child: const Center(
+                              child: Text('Failed to load image'),
+                            ),
+                          ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
           // 3. Display dynamic data
           Text(
             'Issue type : ${report.issue}',
