@@ -19,4 +19,7 @@ class ApiEndpoints {
 
   static String pothole = '$baseUrl/pothole';
   static String nearby = '$baseUrl/nearby';
+
+  static String verifyPothole =
+      '$baseUrl/pothole-verification/create-pothole-verification';
 }

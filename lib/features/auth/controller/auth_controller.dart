@@ -87,8 +87,11 @@ class AuthController extends GetxController {
             body['data'] != null &&
             body['data']['accessToken'] != null) {
           final token = body['data']['accessToken'];
-          // TODO: Store auth token/user data from responseBody
-          await PrefHelper.saveData(Utils.token, token); // Await saveData
+          final userId = body['data']['user']['_id'];
+
+          await PrefHelper.saveData(Utils.token, token);
+          await PrefHelper.saveData(Utils.userId, userId);
+
           printInfo(info: '=====>>>>> token: $token');
           Get.offAll(() => const MainParentScreen());
         } else {
@@ -151,13 +154,12 @@ class AuthController extends GetxController {
 
       // Check status code AFTER the API call returns the http.Response
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        
         // TODO: Decide the next step - auto-login? Show success screen? Navigate to login?
         GlobWidgetHelper.showToast(
           isSuccess: true,
           message: "Signup successful!",
         );
-        Get.offAll(() =>  SignInScreen());
+        Get.offAll(() => SignInScreen());
         pageController.animateToPage(
           0, // Assuming 0 is the login page index
           duration: const Duration(milliseconds: 300),
@@ -256,7 +258,7 @@ class AuthController extends GetxController {
     try {
       isLoading.value = true;
 
-      final token = await PrefHelper.getData(Utils.token);
+      final token = await PrefHelper.getData(Utils.tempToken);
       print('Token: $token');
 
       final data = {
@@ -268,8 +270,8 @@ class AuthController extends GetxController {
 
       final response = await ApiServices.postData(
         body: data,
-        url: ApiEndpoints.changePassword,
-        headers: {'Authorization': tempTokenReset.value},
+        url: ApiEndpoints.resetPassword,
+        headers: {'Authorization': token},
       );
 
       print('Response Status: ${response.statusCode}');

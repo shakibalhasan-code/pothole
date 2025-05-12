@@ -173,23 +173,21 @@ class PassSetScreen extends StatelessWidget {
                   }),
                   SizedBox(height: 32.h),
 
-                  /// Continue Button
-                  CustomButton(
-                    buttonTitle: 'Reset Password', // More specific title
-                    onTap: () {
-                      // --- UPDATE VALIDATION CALL ---
-                      if (_passSetFormKey.currentState?.validate() ?? false) {
-                        // <<< UPDATE THIS LINE
+                  Obx(() {
+                    return
+                    /// Continue Button
+                    controller.isLoading.value
+                        ? const Center(child: CircularProgressIndicator())
+                        : CustomButton(
+                          onTap: () {
+                            if (_passSetFormKey.currentState!.validate()) {
+                              controller.resetPassword();
+                            }
+                          },
+                          buttonTitle: 'Continue',
+                        );
+                  }),
 
-                        // e.g., controller.performSetPassword();
-                        print('Password reset validation successful');
-                        // Navigate to SignIn screen, clearing the stack up to it
-                        controller.resetPassword();
-                      } else {
-                        print('Password reset validation failed');
-                      }
-                    },
-                  ),
                   SizedBox(height: 20.h), // Add some bottom padding
                 ],
               ),

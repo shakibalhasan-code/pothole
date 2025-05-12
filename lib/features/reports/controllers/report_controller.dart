@@ -6,8 +6,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:jourapothole/core/config/api_endpoints.dart';
 import 'package:jourapothole/core/helpers/pref_helper.dart';
+import 'package:jourapothole/core/services/api_services.dart';
 import 'package:jourapothole/core/services/location_services.dart';
 import 'package:jourapothole/core/utils/utils.dart';
+import 'package:jourapothole/core/wrappers/body_wrapper.dart';
 import 'package:jourapothole/features/home/controllers/home_controller.dart';
 import 'package:jourapothole/features/profile_/controller/profile_controller.dart'; // For MediaType
 
@@ -17,6 +19,8 @@ class ReportController extends GetxController {
   final locationServices = Get.find<LocationServices>();
   final profileController = Get.find<ProfileController>();
   final homeController = Get.find<HomeController>();
+
+  final isVerified = false.obs;
 
   // --- HTTP Client and API Configuration ---
   final GetConnect _connect = GetConnect();
@@ -294,6 +298,102 @@ class ReportController extends GetxController {
       isLoading.value = false;
       print("Exception caught while submitting report: $e");
       print("Stack trace: $stackTrace");
+    }
+  }
+
+  Future<void> verifyReport({
+    required String id,
+    required String status,
+  }) async {
+    isLoading.value = true;
+    errorText.value = '';
+
+    try {
+      final userId = await PrefHelper.getData(Utils.userId);
+      if (userId == null) {
+        Get.snackbar(
+          'Error',
+          'User ID not found. Please log in again.',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+        return;
+      }
+
+      final body = {"potholeId": id, "status": status, "userId": userId};
+
+      // Assuming ApiServices.postData handles token internally or doesn't need it directly passed here
+      final request = await ApiServices.postData(
+        body: body, // Pass the correct body
+        url: ApiEndpoints.verifyPothole,
+        headers: {
+          'Authorization': 'Bearer ${await PrefHelper.getData(Utils.token)}',
+        },
+      );
+
+      final bodyResponse = jsonDecode(request.body);
+
+      if (request.statusCode == 200 || request.statusCode == 201) {
+        Get.back();
+
+        print("Report verified successfully: ${request.body}");
+        Get.snackbar(
+          'Success',
+          'Report verified successfully!',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          icon: const Icon(Icons.check_circle, color: Colors.white),
+        );
+
+        // Ensure these controller methods exist and are awaited if they are async
+        if (Get.isRegistered<ProfileController>()) {
+          // Check if controller is registered
+          await Get.find<ProfileController>().getMyReports();
+        }
+        if (Get.isRegistered<HomeController>()) {
+          // Check if controller is registered
+          await Get.find<HomeController>().getPotholeData();
+        }
+      } else {
+        Get.back();
+
+        print(
+          "Failed to verify report: ${request.statusCode} - ${request.body}",
+        );
+        // Try to get a meaningful message from the response
+        String errorMessage = "Unknown error occurred.";
+        if (bodyResponse is Map && bodyResponse.containsKey('message')) {
+          errorMessage = bodyResponse['message'].toString();
+        } else if (bodyResponse is String) {
+          errorMessage = bodyResponse;
+        }
+        errorText.value = errorMessage;
+
+        Get.snackbar(
+          'Failed to Verify Report',
+          errorText.value,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          icon: const Icon(Icons.error, color: Colors.white),
+        );
+      }
+    } catch (e, stackTrace) {
+      // Added stackTrace for better debugging
+      print("Error verifying report: $e\n$stackTrace");
+      errorText.value = 'An unexpected error occurred: ${e.toString()}';
+      Get.snackbar(
+        'Error',
+        errorText.value,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        icon: const Icon(Icons.error, color: Colors.white),
+      );
+    } finally {
+      isLoading.value = false; // Reset loading state
     }
   }
 }

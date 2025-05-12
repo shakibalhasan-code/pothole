@@ -57,6 +57,8 @@ class ReportsScreen extends StatelessWidget {
                         : 'https://placehold.co/600x400',
                     () {
                       showModalBottomSheet(
+                        isDismissible: false,
+                        enableDrag: false,
                         context: context,
                         isScrollControlled: true,
                         backgroundColor: AppColors.whiteColor,
