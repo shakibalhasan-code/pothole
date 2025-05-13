@@ -196,7 +196,12 @@ class SignInScreen extends StatelessWidget {
                   SizedBox(width: 8.w),
 
                   Expanded(
-                    child: AuthCard(onTap: () {}, iconPath: AppIcons.appleIcon),
+                    child: AuthCard(
+                      onTap: () async {
+                        await firebaseServices.signInApple();
+                      },
+                      iconPath: AppIcons.appleIcon,
+                    ),
                   ),
                 ],
               ),
