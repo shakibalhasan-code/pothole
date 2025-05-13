@@ -1,5 +1,4 @@
 import 'package:flutter/rendering.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 
 class AppTextStyles {
@@ -20,7 +19,6 @@ class AppTextStyles {
   );
   static TextStyle bodySmall = TextStyle(
     fontSize: 14,
-
     color: AppColors.darkColor,
   );
 }

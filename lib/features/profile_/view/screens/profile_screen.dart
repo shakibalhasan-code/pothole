@@ -29,171 +29,187 @@ class ProfileScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-          child: Column(
-            children: [
-              // Profile Header with Image, Name, Email
-              Obx(
-                () =>
-                    controller.isLoading.value
-                        ? const Center(child: CircularProgressIndicator())
-                        : Column(
-                          children: [
-                            // Profile Image - Centered
-                            Center(
-                              child: Stack(
-                                children: [
-                                  // Profile Image
-                                  Hero(
-                                    tag: 'profileImage',
-                                    child: Container(
-                                      width: 100.r,
-                                      height: 100.r,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: AppColors.greyColor
-                                              .withOpacity(0.3),
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                          50.r,
-                                        ),
-                                        child:
-                                            controller.pickedImage.value != null
-                                                ? Image.file(
-                                                  controller.pickedImage.value!,
-                                                  fit: BoxFit.cover,
-                                                )
-                                                : CachedNetworkImage(
-                                                  imageUrl:
-                                                      controller
-                                                          .profile
-                                                          .value
-                                                          .image ??
-                                                      'https://thispersondoesnotexist.com/',
-                                                  fit: BoxFit.cover,
-                                                  placeholder:
-                                                      (
-                                                        context,
-                                                        url,
-                                                      ) => const Center(
-                                                        child:
-                                                            CircularProgressIndicator(),
-                                                      ),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          const Icon(
-                                                            Icons.person,
-                                                            size: 50,
-                                                            color:
-                                                                AppColors
-                                                                    .greyColor,
-                                                          ),
-                                                ),
-                                      ),
-                                    ),
-                                  ),
-
-                                  // Camera Icon for changing image
-                                  Positioned(
-                                    bottom: 0,
-                                    right: 0,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        controller.pickImage();
-                                      },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Profile Header with Image, Name, Email
+                Obx(
+                  () =>
+                      controller.isLoading.value
+                          ? const Center(child: CircularProgressIndicator())
+                          : Column(
+                            children: [
+                              // Profile Image - Centered
+                              Center(
+                                child: Stack(
+                                  children: [
+                                    // Profile Image
+                                    Hero(
+                                      tag: 'profileImage',
                                       child: Container(
-                                        padding: EdgeInsets.all(8.r),
+                                        width: 100.r,
+                                        height: 100.r,
                                         decoration: BoxDecoration(
-                                          color: AppColors.primaryColor,
                                           shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: AppColors.greyColor
+                                                .withOpacity(0.3),
+                                            width: 2,
+                                          ),
                                         ),
-                                        child: Icon(
-                                          Icons.camera_alt,
-                                          color: AppColors.whiteColor,
-                                          size: 18,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            50.r,
+                                          ),
+                                          child:
+                                              controller.pickedImage.value !=
+                                                      null
+                                                  ? Image.file(
+                                                    controller
+                                                        .pickedImage
+                                                        .value!,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                  : CachedNetworkImage(
+                                                    imageUrl:
+                                                        controller
+                                                            .profile
+                                                            .value
+                                                            .image ??
+                                                        'https://thispersondoesnotexist.com/',
+                                                    fit: BoxFit.cover,
+                                                    placeholder:
+                                                        (
+                                                          context,
+                                                          url,
+                                                        ) => const Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        ),
+                                                    errorWidget:
+                                                        (
+                                                          context,
+                                                          url,
+                                                          error,
+                                                        ) => const Icon(
+                                                          Icons.person,
+                                                          size: 50,
+                                                          color:
+                                                              AppColors
+                                                                  .greyColor,
+                                                        ),
+                                                  ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+
+                                    // Camera Icon for changing image
+                                    Positioned(
+                                      bottom: 0,
+                                      right: 0,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          controller.pickImage();
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.r),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.primaryColor,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Icon(
+                                            Icons.camera_alt,
+                                            color: AppColors.whiteColor,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
 
-                            SizedBox(height: 16.h),
+                              SizedBox(height: 16.h),
 
-                            // User Name
-                            Text(
-                              controller.profile.value.firstName ?? "User Name",
+                              // User Name
+                              Text(
+                                controller.profile.value.firstName ??
+                                    "User Name",
 
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
 
-                            SizedBox(height: 5.h),
+                              SizedBox(height: 5.h),
 
-                            // User Email
-                            Text(
-                              controller.profile.value.email ??
-                                  "email@example.com",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColors.greyColor,
+                              // User Email
+                              Text(
+                                controller.profile.value.email ??
+                                    "email@example.com",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: AppColors.greyColor,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-              ),
-
-              SizedBox(height: 24.h),
-              const Divider(),
-              SizedBox(height: 10.h),
-
-              // Profile Options
-              _buildProfileOption(
-                icon: Icon(Icons.person_outline, color: AppColors.primaryColor),
-                title: "Edit Profile",
-                ontap:
-                    () => Get.to(
-                      () => EditProfile(profileModel: controller.profile.value),
-                    ),
-              ),
-
-              _buildProfileOption(
-                icon: Icon(Icons.bar_chart, color: AppColors.primaryColor),
-                title: "My Reports",
-                ontap: () => Get.to(() => MyReportsScreen()),
-              ),
-
-              _buildProfileOption(
-                icon: Icon(Icons.support_agent, color: AppColors.primaryColor),
-                title: "Support",
-                ontap: () => Get.to(() => SupportScreen()),
-              ),
-
-              _buildProfileOption(
-                icon: SvgPicture.asset(
-                  AppIcons.passwordIcon,
-                  color: AppColors.primaryColor,
+                            ],
+                          ),
                 ),
-                title: "Privacy Policy",
-                ontap: () => Get.to(() => PrivacyPolicyScreen()),
-              ),
 
-              _buildProfileOption(
-                icon: SvgPicture.asset(
-                  AppIcons.logoutIcon,
-                  color: AppColors.redColor,
+                SizedBox(height: 24.h),
+                const Divider(),
+                SizedBox(height: 10.h),
+
+                // Profile Options
+                _buildProfileOption(
+                  icon: Icon(
+                    Icons.person_outline,
+                    color: AppColors.primaryColor,
+                  ),
+                  title: "Edit Profile",
+                  ontap:
+                      () => Get.to(
+                        () =>
+                            EditProfile(profileModel: controller.profile.value),
+                      ),
                 ),
-                title: "Logout",
-                hasLast: false,
-                ontap: () => ProfileComponents.showLogOutSheet(context),
-              ),
-            ],
+
+                _buildProfileOption(
+                  icon: Icon(Icons.bar_chart, color: AppColors.primaryColor),
+                  title: "My Reports",
+                  ontap: () => Get.to(() => MyReportsScreen()),
+                ),
+
+                _buildProfileOption(
+                  icon: Icon(
+                    Icons.support_agent,
+                    color: AppColors.primaryColor,
+                  ),
+                  title: "Support",
+                  ontap: () => Get.to(() => SupportScreen()),
+                ),
+
+                _buildProfileOption(
+                  icon: SvgPicture.asset(
+                    AppIcons.passwordIcon,
+                    color: AppColors.primaryColor,
+                  ),
+                  title: "Privacy Policy",
+                  ontap: () => Get.to(() => PrivacyPolicyScreen()),
+                ),
+
+                _buildProfileOption(
+                  icon: SvgPicture.asset(
+                    AppIcons.logoutIcon,
+                    color: AppColors.redColor,
+                  ),
+                  title: "Logout",
+                  hasLast: false,
+                  ontap: () => ProfileComponents.showLogOutSheet(context),
+                ),
+              ],
+            ),
           ),
         ),
       ),

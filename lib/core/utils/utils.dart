@@ -5,7 +5,7 @@ class Utils {
   static String userId = 'USER_ID';
 
   ///Database
-  static String dbName = 'db_name';
+  static String dbName = 'locations.db';
   static String dbVersion = '1.0.0';
   static String dbTableName = 'draf_data';
 

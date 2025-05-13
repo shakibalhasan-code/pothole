@@ -47,7 +47,7 @@ class ReportProblemBottomSheet extends StatelessWidget {
           print('User selected: Yes, Resolved');
           await reportsController.verifyReport(id: report.id, status: 'Yes');
           // Potentially update report status and then close
-          Get.back(); // Close the bottom sheet
+
           break;
         case DialogAction.dontKnow:
           print("User selected: I Don't Know");

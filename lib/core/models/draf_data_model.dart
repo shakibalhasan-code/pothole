@@ -1,37 +1,37 @@
-// class DrafDataModel {
-//   int? id;
-//   String address;
-//   String string2;
-//   String string3;
-//   String string4;
+class DrafDataModel {
+  final int? id;
+  final String address;
+  final double latitude;
+  final double longitude;
+  final String? time;
 
-//   DrafDataModel({
-//     this.id,
-//     required this.string1,
-//     required this.string2,
-//     required this.string3,
-//     required this.string4,
-//   });
+  DrafDataModel({
+    this.id,
+    required this.address,
+    required this.latitude,
+    required this.longitude,
+    this.time,
+  });
 
-//   // Convert a DrafDataModel into a Map.
-//   Map<String, dynamic> toMap() {
-//     return {
-//       'id': id,
-//       'string1': string1,
-//       'string2': string2,
-//       'string3': string3,
-//       'string4': string4,
-//     };
-//   }
+  // Convert DrafDataModel object to a map for storing in the database
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'address': address,
+      'latitude': latitude,
+      'longitude': longitude,
+      'time': time,
+    };
+  }
 
-//   // Convert a Map into a DrafDataModel object.
-//   factory DrafDataModel.fromMap(Map<String, dynamic> map) {
-//     return DrafDataModel(
-//       id: map['id'],
-//       string1: map['string1'],
-//       string2: map['string2'],
-//       string3: map['string3'],
-//       string4: map['string4'],
-//     );
-//   }
-// }
+  // Convert a map to a DrafDataModel object (from the database)
+  factory DrafDataModel.fromMap(Map<String, dynamic> map) {
+    return DrafDataModel(
+      id: map['id'],
+      address: map['address'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      time: map['time'],
+    );
+  }
+}

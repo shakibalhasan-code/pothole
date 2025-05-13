@@ -4,14 +4,18 @@ import 'package:flutter/material.dart'; // For Get.snackbar styling and Icons
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:intl/intl.dart';
 import 'package:jourapothole/core/config/api_endpoints.dart';
 import 'package:jourapothole/core/helpers/pref_helper.dart';
+import 'package:jourapothole/core/models/draf_data_model.dart';
 import 'package:jourapothole/core/services/api_services.dart';
 import 'package:jourapothole/core/services/location_services.dart';
+import 'package:jourapothole/core/utils/helper/db_helper.dart';
 import 'package:jourapothole/core/utils/utils.dart';
 import 'package:jourapothole/core/wrappers/body_wrapper.dart';
 import 'package:jourapothole/features/home/controllers/home_controller.dart';
-import 'package:jourapothole/features/profile_/controller/profile_controller.dart'; // For MediaType
+import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
+import 'package:sqflite/sqflite.dart'; // For MediaType
 
 class ReportController extends GetxController {
   final ImagePicker _picker = ImagePicker();
@@ -19,13 +23,26 @@ class ReportController extends GetxController {
   final locationServices = Get.find<LocationServices>();
   final profileController = Get.find<ProfileController>();
   final homeController = Get.find<HomeController>();
-
   final isVerified = false.obs;
+
+  RxList<DrafDataModel> draftReports = <DrafDataModel>[].obs;
+
+  final db =
+      DatabaseHelper
+          .instance; // Assuming 'instance' is a named constructor in DatabaseHelper
 
   // --- HTTP Client and API Configuration ---
   final GetConnect _connect = GetConnect();
   RxBool isLoading = false.obs;
   var errorText = ''.obs;
+
+  @override
+  void onInit() async {
+    super.onInit();
+    // Initialize any required services or data here
+    print("ReportController initialized.");
+    await getDrafReport(); // Load the saved draft reports
+  }
 
   // --- Method to Pick Multiple Media from Gallery ---
   Future<void> pickMediaFromGallery() async {
@@ -394,6 +411,70 @@ class ReportController extends GetxController {
       );
     } finally {
       isLoading.value = false; // Reset loading state
+    }
+  }
+
+  Future<List<DrafDataModel>> getDrafReport() async {
+    try {
+      final data = await db.getAllDrafts();
+      if (data.isNotEmpty) {
+        print("Draft report data: ${data[0].toMap()}");
+
+        // Update the RxList with the new data
+        draftReports.value = data; // Correct way to update an RxList
+
+        return data;
+      } else {
+        print("No draft report found.");
+      }
+    } catch (e) {
+      print("Error getting draft report: $e");
+      Get.snackbar(
+        'Error',
+        'Could not get draft report: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+    return [];
+  }
+
+  Future<void> saveDraftReport({
+    required String address,
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      // Format the date and time in the desired format
+      String formattedTime = DateFormat(
+        "hh:mm a ddMMM yyyy",
+      ).format(DateTime.now());
+
+      final draftData = DrafDataModel(
+        address: address,
+        latitude: latitude,
+        longitude: longitude,
+        time: formattedTime, // Using the formatted time here
+      );
+
+      // Save the draft report data to the database
+      await db.insertDraft(draftData);
+      print("Draft report saved successfully.");
+
+      // Update the RxList with the new draft data
+      draftReports.add(
+        draftData,
+      ); // Adds the new draft report to the observable list
+    } catch (e) {
+      print("Error saving draft report: $e");
+      Get.snackbar(
+        'Error',
+        'Could not save draft report: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 }

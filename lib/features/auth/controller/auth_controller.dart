@@ -114,9 +114,6 @@ class AuthController extends GetxController {
     } catch (e) {
       // This catch block handles network errors or exceptions during processing
       printError(info: 'Login Error: $e');
-      // ApiServices catch block should show a network error toast.
-      // If not, you might add a generic network error toast here.
-      // Example: GlobWidgetHelper.showToast(isSuccess: false, message: "Network error. Please check your connection.");
     } finally {
       isLoading.value = false;
     }
