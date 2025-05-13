@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:jourapothole/core/services/firebase_services.dart';
 import 'package:jourapothole/core/utils/components/custom_button.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 import 'package:jourapothole/core/utils/constants/app_icons.dart';
@@ -11,8 +12,6 @@ import 'package:jourapothole/features/auth/components/auth_card.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 import 'package:jourapothole/features/auth/view/forget_password_screen.dart';
 import 'package:jourapothole/features/auth/view/sign_up_screen.dart';
-// import 'package:jourapothole/features/home/views/home_view.dart'; // Assuming this is where you go after login
-import 'package:jourapothole/features/main_tab/main_parent_screen.dart'; // Assuming this is where you go after login
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
@@ -21,6 +20,7 @@ class SignInScreen extends StatelessWidget {
   final AuthController controller = Get.find<AuthController>();
   // --- ADD LOCAL KEY ---
   final _formKey = GlobalKey<FormState>(); // <<< ADD THIS LINE
+  final FirebaseServices firebaseServices = Get.find<FirebaseServices>();
 
   @override
   Widget build(BuildContext context) {
@@ -178,18 +178,26 @@ class SignInScreen extends StatelessWidget {
                     );
               }),
               SizedBox(height: 30.h),
-              // ... (Or Continue With Row) ...
-              Row(/* ... Divider ... */),
+
               SizedBox(height: 20.h),
               // ... (Social Auth Cards Row) ...
               Row(
                 children: [
-                  Expanded(child: AuthCard(iconPath: AppIcons.googleIcon)),
-                  SizedBox(width: 8.w),
-                  Expanded(child: AuthCard(iconPath: AppIcons.fbIcon)),
+                  Expanded(
+                    child: AuthCard(
+                      onTap: () async {
+                        await firebaseServices.signInGoogle();
+                      },
+                      iconPath: AppIcons.googleIcon,
+                    ),
+                  ),
+                  // SizedBox(width: 8.w),
+                  // Expanded(child: AuthCard(iconPath: AppIcons.fbIcon)),
                   SizedBox(width: 8.w),
 
-                  Expanded(child: AuthCard(iconPath: AppIcons.appleIcon)),
+                  Expanded(
+                    child: AuthCard(onTap: () {}, iconPath: AppIcons.appleIcon),
+                  ),
                 ],
               ),
               SizedBox(height: 30.h),

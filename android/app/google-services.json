@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "524000091958",
+    "project_id": "potholee-3cfbf",
+    "storage_bucket": "potholee-3cfbf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524000091958:android:5c4254dc4b37f9ead11d97",
+        "android_client_info": {
+          "package_name": "com.decodersfamily.jourapothole"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "524000091958-anvm0ltqpbpi09rgfivi2odjh32mn8el.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR0CmOg8I0aGAcEH4TX6NkfoeUvs5z16Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "524000091958-anvm0ltqpbpi09rgfivi2odjh32mn8el.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

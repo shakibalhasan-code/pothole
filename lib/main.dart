@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,10 +8,15 @@ import 'package:jourapothole/core/utils/routes/app_pages.dart';
 import 'package:jourapothole/core/utils/themes/app_theme.dart';
 import 'package:jourapothole/core/utils/loading_controller.dart';
 import 'package:jourapothole/core/config/app_constants.dart';
+import 'package:jourapothole/firebase_options.dart';
 import 'package:jourapothole/l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options:
+        DefaultFirebaseOptions.currentPlatform, // Uses firebase_options.dart
+  );
   runApp(const MyApp());
 }
 

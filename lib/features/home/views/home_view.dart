@@ -286,7 +286,7 @@ class HomeView extends StatelessWidget {
         },
         child: Container(
           // height: 64.h, // You can set a fixed height or let it be dynamic
-          constraints: BoxConstraints(minHeight: 64.h),
+          constraints: BoxConstraints(minHeight: 65.h),
           width: 260.w,
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(
