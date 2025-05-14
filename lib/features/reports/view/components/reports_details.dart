@@ -46,21 +46,16 @@ class ReportProblemBottomSheet extends StatelessWidget {
         case DialogAction.yes:
           print('User selected: Yes, Resolved');
           await reportsController.verifyReport(id: report.id, status: 'Yes');
-          // Potentially update report status and then close
-
           break;
         case DialogAction.dontKnow:
           print("User selected: I Don't Know");
           await reportsController.verifyReport(
             id: report.id,
-            status: 'I don\'t Know',
+            status: "I don't know",
           );
-
-          // Maybe keep the bottom sheet open or take other action
           break;
       }
     } else {
-      // Dialog was dismissed by other means (e.g. back button on Android if barrierDismissible true)
       print('Dialog dismissed without selection');
     }
   }
@@ -87,7 +82,7 @@ class ReportProblemBottomSheet extends StatelessWidget {
             : 'No detailed description provided for this report.';
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.w), // Use responsive padding
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,30 +91,21 @@ class ReportProblemBottomSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                // Added Expanded to prevent overflow if title is long
                 child: Text(
                   'Report Details: ${report.issue}',
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: 18.sp, // Use responsive font size
                     fontWeight: FontWeight.bold,
                   ),
-                  overflow: TextOverflow.ellipsis, // Handle long text
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               IconButton(
                 icon: const Icon(Icons.close, color: AppColors.redColor),
                 onPressed: () {
-                  // Instead of Get.back(), show the custom dialog
                   getVerifyList().then((isVerified) {
                     if (isVerified) {
                       Get.back();
-                      // Get.snackbar(
-                      //   'Info',
-                      //   'You have already verified this report.',
-                      //   snackPosition: SnackPosition.BOTTOM,
-                      //   backgroundColor: Colors.yellow[100],
-                      //   colorText: Colors.black,
-                      // );
                       printError(
                         info: 'You have already verified this report.',
                       );
@@ -131,17 +117,17 @@ class ReportProblemBottomSheet extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           FutureBuilder<bool>(
             future: getVerifyList(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox.shrink(); // Show nothing while loading
+                return const SizedBox.shrink();
               } else if (snapshot.hasData && snapshot.data == true) {
-                return const Text(
+                return Text(
                   'You have already verified this report.',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     color: Colors.green,
                     fontWeight: FontWeight.w500,
                   ),
@@ -151,26 +137,23 @@ class ReportProblemBottomSheet extends StatelessWidget {
               }
             },
           ),
-          SizedBox(height: 8.h),
-          // Display image dynamically
+          // SizedBox(height: 8.h),
           InkWell(
             onTap: () {
               if (imageUrl != null) {
                 final imageProvider = Image.network(imageUrl).image;
-                showImageViewer(
-                  context,
-                  imageProvider,
-                  immersive: false,
-                ); // immersive: false is often preferred for bottom sheets
+                showImageViewer(context, imageProvider, immersive: false);
               }
             },
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(
+                12.r,
+              ), // Use responsive border radius
               child:
                   imageUrl != null
                       ? Image.network(
-                        imageUrl, // Removed imageUrl! as it's already checked
-                        height: 150.h, // Used .h from screenutil
+                        imageUrl,
+                        height: 150.h, // Use responsive height
                         width: double.infinity,
                         fit: BoxFit.cover,
                         errorBuilder:
@@ -206,16 +189,13 @@ class ReportProblemBottomSheet extends StatelessWidget {
                       ),
             ),
           ),
-          const SizedBox(height: 16),
-
-          // Video display section
+          SizedBox(height: 10.h),
           if (report.videos.isNotEmpty) ...[
-            // Removed the extra SizedBox(height: 16) as there's one above
             Text(
               'Videos:',
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             SizedBox(
               height: 100.h,
               child: ListView.builder(
@@ -225,17 +205,17 @@ class ReportProblemBottomSheet extends StatelessWidget {
                   String videoUrl = report.videos[index];
                   return InkWell(
                     onTap: () {
-                      Get.to(
-                        () => VideoPlayerViewGetx(videoUrl: videoUrl),
-                      ); // Pass widget instance
-                      print('Play video from URL: $videoUrl');
+                      Get.to(() => VideoPlayerViewGetx(videoUrl: videoUrl));
                     },
                     child: Container(
-                      margin: const EdgeInsets.only(right: 8),
-                      // height: 70.h, // Height is managed by parent SizedBox
+                      margin: EdgeInsets.only(
+                        right: 8.w,
+                      ), // Use responsive margin
                       width: 150.w,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(
+                          12.r,
+                        ), // Use responsive radius
                         color: Colors.black,
                       ),
                       child: Center(
@@ -250,39 +230,39 @@ class ReportProblemBottomSheet extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 16), // Added SizedBox after video list
+            SizedBox(height: 16.h),
           ],
-
-          // Issue details and status
-          // const SizedBox(height: 16), // Removed as videos section adds one if present
           Text(
             'Issue type : ${report.issue}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             'Severity Level : ${report.severityLevel}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             'Address : ${report.location.address}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  const Text(
+                  Text(
                     'Status : ',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Text(
                     report.status,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: statusColor,
                     ),
@@ -302,7 +282,6 @@ class ReportProblemBottomSheet extends StatelessWidget {
                     if (await canLaunchUrl(mapUrl)) {
                       await launchUrl(mapUrl);
                     } else {
-                      // Handle error: Could not launch URL
                       Get.snackbar(
                         'Error',
                         'Could not open map.',
@@ -310,9 +289,6 @@ class ReportProblemBottomSheet extends StatelessWidget {
                       );
                       print('Could not launch $mapUrl');
                     }
-                    print(
-                      'View in Map tapped for Latitude: ${report.location.latitude}, Longitude: ${report.location.longitude}',
-                    );
                   },
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -340,14 +316,12 @@ class ReportProblemBottomSheet extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
-
-          // Dynamic description display
+          SizedBox(height: 16.h),
           Text(
             descriptionToDisplay,
-            style: const TextStyle(fontSize: 14, color: Colors.black87),
+            style: TextStyle(fontSize: 14.sp, color: Colors.black87),
           ),
-          const SizedBox(height: 16),
+          // SizedBox(height: 16.h),
         ],
       ),
     );

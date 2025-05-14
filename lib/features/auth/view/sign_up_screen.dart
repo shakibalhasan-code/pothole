@@ -199,8 +199,9 @@ class SignUpScreen extends StatelessWidget {
                           suffixIcon: IconButton(
                             padding: iconPadding,
                             icon: SvgPicture.asset(
-                              AppIcons
-                                  .eyeVisibleIcon, // TODO: Replace if needed
+                              controller.isPasswordVisible.value
+                                  ? AppIcons.eyeVisibleIcon
+                                  : AppIcons.eyeInvisibleIcon,
                               width: 20.w,
                               height: 20.h,
                               fit: BoxFit.contain,

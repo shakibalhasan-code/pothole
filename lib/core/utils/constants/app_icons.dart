@@ -5,6 +5,7 @@ class AppIcons {
   static const String emailIcon = '$iconsPath/email_icon.svg';
   static const String passwordIcon = '$iconsPath/password_icon.svg';
   static const String eyeVisibleIcon = '$iconsPath/eye_visible_icon.svg';
+  static const String eyeInvisibleIcon = '$iconsPath/eye_invisible_icon.svg';
 
   ///auth_icons
   static const String googleIcon = '$iconsPath/google_icon.svg';
