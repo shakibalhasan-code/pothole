@@ -111,10 +111,15 @@ class ReportsScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
                 child: Image.network(
                   filterQuality: FilterQuality.none,
-                  image ?? 'https://placehold.co/600x400',
+                  image,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
-                    return const Center(child: Icon(Icons.error));
+                    return const Center(
+                      child: Text(
+                        'Image not available',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
                   },
                 ),
               ), // Replace with actual image

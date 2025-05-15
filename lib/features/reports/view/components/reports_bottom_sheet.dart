@@ -488,7 +488,6 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
       // latitude: locationController.latitude.value, // If you have these
       // longitude: locationController.longitude.value, // If you have these
     );
-    Navigator.pop(context); // Close the bottom sheet after submission
     reportController.clearMedia(); // Clear media after submission
   }
 }

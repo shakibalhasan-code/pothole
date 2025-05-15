@@ -83,246 +83,251 @@ class ReportProblemBottomSheet extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.all(16.w), // Use responsive padding
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  'Report Details: ${report.issue}',
-                  style: TextStyle(
-                    fontSize: 18.sp, // Use responsive font size
-                    fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    'Report Details: ${report.issue}',
+                    style: TextStyle(
+                      fontSize: 18.sp, // Use responsive font size
+                      fontWeight: FontWeight.bold,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.close, color: AppColors.redColor),
-                onPressed: () {
-                  getVerifyList().then((isVerified) {
-                    if (isVerified) {
-                      Get.back();
-                      printError(
-                        info: 'You have already verified this report.',
-                      );
-                    } else {
-                      _showConfirmationDialog(context);
-                    }
-                  });
-                },
-              ),
-            ],
-          ),
-          SizedBox(height: 8.h),
-          FutureBuilder<bool>(
-            future: getVerifyList(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox.shrink();
-              } else if (snapshot.hasData && snapshot.data == true) {
-                return Text(
-                  'You have already verified this report.',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colors.green,
-                    fontWeight: FontWeight.w500,
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
-            },
-          ),
-          // SizedBox(height: 8.h),
-          InkWell(
-            onTap: () {
-              if (imageUrl != null) {
-                final imageProvider = Image.network(imageUrl).image;
-                showImageViewer(context, imageProvider, immersive: false);
-              }
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(
-                12.r,
-              ), // Use responsive border radius
-              child:
-                  imageUrl != null
-                      ? Image.network(
-                        imageUrl,
-                        height: 150.h, // Use responsive height
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder:
-                            (context, error, stackTrace) => Container(
-                              height: 150.h,
-                              color: Colors.grey[300],
-                              child: const Center(
-                                child: Text('Failed to load image'),
-                              ),
-                            ),
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Container(
-                            height: 150.h,
-                            color: Colors.grey[200],
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                value:
-                                    loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                              ),
-                            ),
-                          );
-                        },
-                      )
-                      : Container(
-                        height: 150.h,
-                        color: Colors.grey[300],
-                        child: const Center(child: Text('No image available')),
-                      ),
-            ),
-          ),
-          SizedBox(height: 10.h),
-          if (report.videos.isNotEmpty) ...[
-            Text(
-              'Videos:',
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+                IconButton(
+                  icon: const Icon(Icons.close, color: AppColors.redColor),
+                  onPressed: () {
+                    getVerifyList().then((isVerified) {
+                      if (isVerified) {
+                        Get.back();
+                        printError(
+                          info: 'You have already verified this report.',
+                        );
+                      } else {
+                        _showConfirmationDialog(context);
+                      }
+                    });
+                  },
+                ),
+              ],
             ),
             SizedBox(height: 8.h),
-            SizedBox(
-              height: 100.h,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: report.videos.length,
-                itemBuilder: (context, index) {
-                  String videoUrl = report.videos[index];
-                  return InkWell(
-                    onTap: () {
-                      Get.to(() => VideoPlayerViewGetx(videoUrl: videoUrl));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        right: 8.w,
-                      ), // Use responsive margin
-                      width: 150.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          12.r,
-                        ), // Use responsive radius
-                        color: Colors.black,
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.play_arrow_rounded,
-                          color: Colors.white,
-                          size: 50.w,
-                        ),
-                      ),
+            FutureBuilder<bool>(
+              future: getVerifyList(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox.shrink();
+                } else if (snapshot.hasData && snapshot.data == true) {
+                  return Text(
+                    'You have already verified this report.',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w500,
                     ),
                   );
-                },
-              ),
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
             ),
-            SizedBox(height: 16.h),
-          ],
-          Text(
-            'Issue type : ${report.issue}',
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            'Severity Level : ${report.severityLevel}',
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            'Address : ${report.location.address}',
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
-          ),
-          SizedBox(height: 8.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    'Status : ',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                    report.status,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: statusColor,
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.primaryLightColor,
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: InkWell(
-                  onTap: () async {
-                    final Uri mapUrl = Uri.parse(
-                      'https://www.google.com/maps/search/?api=1&query=${report.location.latitude},${report.location.longitude}',
-                    );
-                    if (await canLaunchUrl(mapUrl)) {
-                      await launchUrl(mapUrl);
-                    } else {
-                      Get.snackbar(
-                        'Error',
-                        'Could not open map.',
-                        snackPosition: SnackPosition.BOTTOM,
-                      );
-                      print('Could not launch $mapUrl');
-                    }
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.w,
-                      vertical: 5.h,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.location_on_outlined,
-                          color: AppColors.primaryDarkColor,
-                        ),
-                        SizedBox(width: 5.w),
-                        Text(
-                          'View In Map',
-                          style: AppTextStyles.bodySmall.copyWith(
-                            color: AppColors.primaryDarkColor,
-                            fontWeight: FontWeight.bold,
+            // SizedBox(height: 8.h),
+            InkWell(
+              onTap: () {
+                if (imageUrl != null) {
+                  final imageProvider = Image.network(imageUrl).image;
+                  showImageViewer(context, imageProvider, immersive: false);
+                }
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                  12.r,
+                ), // Use responsive border radius
+                child:
+                    imageUrl != null
+                        ? Image.network(
+                          imageUrl,
+                          height: 150.h, // Use responsive height
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder:
+                              (context, error, stackTrace) => Container(
+                                height: 150.h,
+                                color: Colors.grey[300],
+                                child: const Center(
+                                  child: Text('Failed to load image'),
+                                ),
+                              ),
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Container(
+                              height: 150.h,
+                              color: Colors.grey[200],
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  value:
+                                      loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!
+                                          : null,
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                        : Container(
+                          height: 150.h,
+                          color: Colors.grey[300],
+                          child: const Center(
+                            child: Text('No image available'),
                           ),
                         ),
-                      ],
+              ),
+            ),
+            SizedBox(height: 10.h),
+            if (report.videos.isNotEmpty) ...[
+              Text(
+                'Videos:',
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8.h),
+              SizedBox(
+                height: 100.h,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: report.videos.length,
+                  itemBuilder: (context, index) {
+                    String videoUrl = report.videos[index];
+                    return InkWell(
+                      onTap: () {
+                        Get.to(() => VideoPlayerViewGetx(videoUrl: videoUrl));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          right: 8.w,
+                        ), // Use responsive margin
+                        width: 150.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            12.r,
+                          ), // Use responsive radius
+                          color: Colors.black,
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.play_arrow_rounded,
+                            color: Colors.white,
+                            size: 50.w,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 16.h),
+            ],
+            Text(
+              'Issue type : ${report.issue}',
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              'Severity Level : ${report.severityLevel}',
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              'Address : ${report.location.address}',
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 8.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Status : ',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      report.status,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: statusColor,
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryLightColor,
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: InkWell(
+                    onTap: () async {
+                      final Uri mapUrl = Uri.parse(
+                        'https://www.google.com/maps/search/?api=1&query=${report.location.latitude},${report.location.longitude}',
+                      );
+                      if (await canLaunchUrl(mapUrl)) {
+                        await launchUrl(mapUrl);
+                      } else {
+                        Get.snackbar(
+                          'Error',
+                          'Could not open map.',
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                        print('Could not launch $mapUrl');
+                      }
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 5.h,
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.location_on_outlined,
+                            color: AppColors.primaryDarkColor,
+                          ),
+                          SizedBox(width: 5.w),
+                          Text(
+                            'View In Map',
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: AppColors.primaryDarkColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16.h),
-          Text(
-            descriptionToDisplay,
-            style: TextStyle(fontSize: 14.sp, color: Colors.black87),
-          ),
-          // SizedBox(height: 16.h),
-        ],
+              ],
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              descriptionToDisplay,
+              style: TextStyle(fontSize: 14.sp, color: Colors.black87),
+            ),
+            // SizedBox(height: 16.h),
+          ],
+        ),
       ),
     );
   }

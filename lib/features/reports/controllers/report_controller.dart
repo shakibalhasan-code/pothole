@@ -278,7 +278,8 @@ class ReportController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("Report submitted successfully: ${response.bodyString}");
-
+        Get.back();
+        // Show success message
         Get.snackbar(
           'Success',
           'Report submitted successfully!',

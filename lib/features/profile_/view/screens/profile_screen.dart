@@ -224,35 +224,20 @@ class ProfileScreen extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: ontap,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 8.h),
-        decoration: BoxDecoration(
-          color: AppColors.whiteColor,
-          borderRadius: BorderRadius.circular(10.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              spreadRadius: 1,
-              blurRadius: 5,
-              offset: const Offset(0, 1),
-            ),
-          ],
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(vertical: 4.h),
+        leading: SizedBox(width: 24.w, height: 24.h, child: icon),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
         ),
-        child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
-          leading: SizedBox(width: 24.w, height: 24.h, child: icon),
-          title: Text(
-            title,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
-          ),
-          trailing:
-              hasLast
-                  ? const Icon(
-                    Icons.chevron_right_outlined,
-                    color: AppColors.greyColor,
-                  )
-                  : null,
-        ),
+        trailing:
+            hasLast
+                ? const Icon(
+                  Icons.chevron_right_outlined,
+                  color: AppColors.greyColor,
+                )
+                : null,
       ),
     );
   }
