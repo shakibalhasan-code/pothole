@@ -35,7 +35,7 @@ class MapServices extends GetxService {
       await locationServices.getUserLocationWithAddress();
 
       kGooglePlex.value = CameraPosition(
-        target: LatLng(locationServices.latt, locationServices.long),
+        target: LatLng(locationServices.latitude, locationServices.longitude),
         zoom: 14.4746,
       );
       print("kGooglePlex set to user location");

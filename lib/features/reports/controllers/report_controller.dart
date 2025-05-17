@@ -201,7 +201,10 @@ class ReportController extends GetxController {
         'description': description ?? '',
         'location': {
           'address': location,
-          'coordinates': [locationServices.latt, locationServices.long],
+          'coordinates': [
+            locationServices.latitude,
+            locationServices.longitude,
+          ],
         },
         'user': profileController.profile.value.id,
       };

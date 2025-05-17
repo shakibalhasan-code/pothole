@@ -83,8 +83,8 @@ class HomeView extends StatelessWidget {
                           locat.userCurrentLocation.value.isNotEmpty
                               ? locat.userCurrentLocation.value
                               : "Unknown Address";
-                      final double latitude = locat.latt;
-                      final double longitude = locat.long;
+                      final double latitude = locat.latitude;
+                      final double longitude = locat.longitude;
                       final String currentTime =
                           DateTime.now().toIso8601String();
 
@@ -271,8 +271,8 @@ class HomeView extends StatelessWidget {
         onTap: () async {
           Get.find<LocationServices>().userCurrentLocation.value =
               draft.address;
-          Get.find<LocationServices>().latt = draft.latitude;
-          Get.find<LocationServices>().long = draft.longitude;
+          Get.find<LocationServices>().latitude = draft.latitude;
+          Get.find<LocationServices>().longitude = draft.longitude;
 
           showModalBottomSheet(
             context: context,
@@ -331,28 +331,18 @@ class HomeView extends StatelessWidget {
                 ),
               ),
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.delete_outline,
                   color: AppColors.redColor,
                   size: 22,
                 ),
                 padding: EdgeInsets.zero,
                 constraints:
-                    BoxConstraints(), // To remove extra padding around IconButton
+                    const BoxConstraints(), // To remove extra padding around IconButton
                 onPressed: () {
-                  Get.defaultDialog(
-                    title: "Delete Draft",
-                    middleText: "Are you sure you want to delete this draft?",
-                    textConfirm: "Delete",
-                    textCancel: "Cancel",
-                    confirmTextColor: Colors.white,
-                    onConfirm: () {
-                      if (draft.id != null) {
-                        controller.deleteDraft(draft.id!);
-                      }
-                      Get.back(); // Close dialog
-                    },
-                  );
+                  if (draft.id != null) {
+                    controller.deleteDraft(draft.id!);
+                  }
                 },
               ),
             ],

@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 class LocationServices extends GetxService {
   final userCurrentLocation = ''.obs;
 
-  double long = 0.0;
-  double latt = 0.0;
+  double longitude = 0.0;
+  double latitude = 0.0;
 
   @override
   void onInit() async {
@@ -17,6 +17,9 @@ class LocationServices extends GetxService {
   Future<void> getUserLocationWithAddress() async {
     try {
       Position position = await determinePosition();
+      userCurrentLocation.value = "Getting location...";
+      longitude = position.longitude;
+      latitude = position.latitude;
       await getAddressFromLatLng(position);
     } catch (e) {
       userCurrentLocation.value = 'Failed to get location: $e';
@@ -27,48 +30,55 @@ class LocationServices extends GetxService {
     bool serviceEnabled;
     LocationPermission permission;
 
+    // Check if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      throw 'Location services are disabled.';
+      // Prompt the user to enable location services.
+      await Geolocator.openLocationSettings();
+      throw Exception('Location services are disabled.');
     }
 
+    // Check the current permission status.
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        throw 'Location permissions are denied';
+        throw Exception('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      throw 'Location permissions are permanently denied.';
+      // Permissions are denied forever, prompt the user to enable them in settings.
+      await Geolocator.openAppSettings();
+      throw Exception('Location permissions are permanently denied.');
     }
 
-    final LocationSettings locationSettings = const LocationSettings(
-      accuracy: LocationAccuracy.high,
-      distanceFilter: 100,
-    );
-
+    // When permissions are granted, get the position.
     return await Geolocator.getCurrentPosition(
-      locationSettings: locationSettings,
+      desiredAccuracy: LocationAccuracy.high,
     );
   }
 
   Future<void> getAddressFromLatLng(Position position) async {
-    long = position.longitude;
-    latt = position.latitude;
+    try {
+      longitude = position.longitude;
+      latitude = position.latitude;
 
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-      position.latitude,
-      position.longitude,
-    );
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
 
-    if (placemarks.isNotEmpty) {
-      final Placemark place = placemarks[0];
-      userCurrentLocation.value =
-          "${place.name}, ${place.locality}, ${place.country}";
-    } else {
-      userCurrentLocation.value = "Address not found";
+      if (placemarks.isNotEmpty) {
+        final Placemark place = placemarks[0];
+        userCurrentLocation.value =
+            "${place.name}, ${place.locality}, ${place.country}";
+      } else {
+        userCurrentLocation.value = "Address not found";
+      }
+    } catch (e) {
+      userCurrentLocation.value = "Failed to get address: $e";
+      printError(info: "Failed to get address: $e");
     }
   }
 }

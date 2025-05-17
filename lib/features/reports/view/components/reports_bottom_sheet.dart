@@ -246,16 +246,7 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
                       color: AppColors.primaryColor,
                     ),
                     onPressed: () async {
-                      // You might want to show a loading indicator while fetching
-                      if (locationController.getUserLocationWithAddress()
-                          is Function) {
-                        // Check if method exists
-                        await locationController.getUserLocationWithAddress();
-                      } else {
-                        print(
-                          "getCurrentLocation method not found in LocationServices",
-                        );
-                      }
+                      await locationController.getUserLocationWithAddress();
                     },
                   ),
                 ),

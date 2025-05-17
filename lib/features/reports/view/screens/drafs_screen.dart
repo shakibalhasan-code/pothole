@@ -77,8 +77,8 @@ class DrafsScreen extends StatelessWidget {
     return InkWell(
       onTap: () async {
         Get.find<LocationServices>().userCurrentLocation.value = draft.address;
-        Get.find<LocationServices>().latt = draft.latitude;
-        Get.find<LocationServices>().long = draft.longitude;
+        Get.find<LocationServices>().latitude = draft.latitude;
+        Get.find<LocationServices>().longitude = draft.longitude;
         showModalBottomSheet(
           context: context,
           backgroundColor: AppColors.whiteColor,
