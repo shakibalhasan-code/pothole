@@ -17,6 +17,7 @@ class DrafsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Get.back(),
@@ -149,41 +150,20 @@ class DrafsScreen extends StatelessWidget {
               ),
               SizedBox(width: 8.w), // Space before delete icon
               IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.delete_outline,
                   color: AppColors.redColor,
                   size: 24,
                 ),
                 padding: EdgeInsets.zero, // Remove default padding
                 constraints:
-                    BoxConstraints(), // Remove default constraints for denser layout
+                    const BoxConstraints(), // Remove default constraints for denser layout
                 onPressed: () {
-                  Get.defaultDialog(
-                    title: "Delete Draft",
-                    middleText: "Are you sure you want to delete this draft?",
-                    titleStyle: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    middleTextStyle: TextStyle(fontSize: 14.sp),
-                    textConfirm: "Delete",
-                    textCancel: "Cancel",
-                    buttonColor: AppColors.redColor,
-                    confirmTextColor: Colors.white,
-                    cancelTextColor: AppColors.blueColor,
-                    onConfirm: () {
-                      if (draft.id != null) {
-                        controller.deleteDraft(draft.id!);
-                      } else {
-                        Get.snackbar(
-                          "Error",
-                          "Cannot delete draft without ID.",
-                        );
-                      }
-                      Get.back(); // Close dialog
-                    },
-                    onCancel: () {},
-                  );
+                  if (draft.id != null) {
+                    controller.deleteDraft(draft.id!);
+                  } else {
+                    Get.snackbar("Error", "Cannot delete draft without ID.");
+                  }
                 },
               ),
             ],
