@@ -7,6 +7,8 @@ class AppIcons {
   static const String eyeVisibleIcon = '$iconsPath/eye_visible_icon.svg';
   static const String eyeInvisibleIcon = '$iconsPath/eye_invisible_icon.svg';
 
+  static const String deleteIcon = '$iconsPath/delete_icon.svg';
+
   ///auth_icons
   static const String googleIcon = '$iconsPath/google_icon.svg';
   static const String fbIcon = '$iconsPath/fb_icon.svg';

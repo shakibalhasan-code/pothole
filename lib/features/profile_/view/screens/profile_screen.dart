@@ -198,6 +198,18 @@ class ProfileScreen extends StatelessWidget {
                   title: "Privacy Policy",
                   ontap: () => Get.to(() => PrivacyPolicyScreen()),
                 ),
+                _buildProfileOption(
+                  icon: SvgPicture.asset(
+                    AppIcons.deleteIcon,
+                    color: AppColors.primaryColor,
+                  ),
+                  title: "Delete Account",
+                  ontap:
+                      () => ProfileComponents.showDeleteAccountModalSheet(
+                        context,
+                        controller.profile.value.id ?? '',
+                      ),
+                ),
 
                 _buildProfileOption(
                   icon: SvgPicture.asset(

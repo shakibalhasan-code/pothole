@@ -92,9 +92,12 @@ class SupportScreen extends StatelessWidget {
             iconColor: iconColor,
             title: 'Email Support',
             // --- !!! REPLACE WITH YOUR EMAIL !!! ---
-            subtitle: 'support@yourapp.com',
+            subtitle: 'mehdi.jaber.99@gmail.com',
             onTap:
-                () => _launchUrlHelper('mailto:support@yourapp.com', context),
+                () => _launchUrlHelper(
+                  'mailto:mehdi.jaber.99@gmail.com',
+                  context,
+                ),
           ),
           _buildDivider(), // Divider between email and call
           _buildSupportTile(
@@ -103,8 +106,8 @@ class SupportScreen extends StatelessWidget {
             iconColor: iconColor,
             title: 'Call Us',
             // --- !!! REPLACE WITH YOUR PHONE NUMBER !!! ---
-            subtitle: '+1 (555) 123-4567',
-            onTap: () => _launchUrlHelper('tel:+15551234567', context),
+            subtitle: '+971502759139',
+            onTap: () => _launchUrlHelper('tel:+971502759139', context),
           ),
         ],
       ),
