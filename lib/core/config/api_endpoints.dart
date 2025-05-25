@@ -1,6 +1,9 @@
 class ApiEndpoints {
   ///MainUrl
-  static String baseUrl = 'http://192.168.10.99:5006/api/v1';
+  ///  static String baseUrl = 'http://192.168.10.99:5006/api/v1';
+
+  static String baseUrl = 'http://31.97.33.65:5006/api/v1';
+
   static String authPath = '$baseUrl/auth';
 
   static String login = '$authPath/login';

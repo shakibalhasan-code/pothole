@@ -5,6 +5,7 @@ class AppImages {
   static const String splashScreen3 = '$imagesPath/splash-3.png';
 
   static const String avatar = "$imagesPath/avatar.png";
+  static const String logo = "$imagesPath/logo.png";
 
   static const String mapImage = "$imagesPath/map_image.png";
   static const String map2 = "$imagesPath/map_2.png";

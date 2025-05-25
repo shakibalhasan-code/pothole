@@ -272,35 +272,35 @@ class SignUpScreen extends StatelessWidget {
                       },
                     );
               }),
-              SizedBox(height: 30.h),
-              // ... (Or Continue With Row) ...
-              Row(/* ... Divider ... */),
-              SizedBox(height: 20.h),
-              // ... (Social Auth Cards Row) ...
-              Row(
-                children: [
-                  Expanded(
-                    child: AuthCard(
-                      onTap: () async {
-                        await firebaseServices.signInGoogle();
-                      },
-                      iconPath: AppIcons.googleIcon,
-                    ),
-                  ),
-                  // SizedBox(width: 8.w),
-                  // Expanded(child: AuthCard(iconPath: AppIcons.fbIcon)),
-                  SizedBox(width: 8.w),
+              // SizedBox(height: 30.h),
+              // // ... (Or Continue With Row) ...
+              // Row(/* ... Divider ... */),
+              // SizedBox(height: 20.h),
+              // // ... (Social Auth Cards Row) ...
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: AuthCard(
+              //         onTap: () async {
+              //           await firebaseServices.signInGoogle();
+              //         },
+              //         iconPath: AppIcons.googleIcon,
+              //       ),
+              //     ),
+              //     // SizedBox(width: 8.w),
+              //     // Expanded(child: AuthCard(iconPath: AppIcons.fbIcon)),
+              //     // SizedBox(width: 8.w),
 
-                  Expanded(
-                    child: AuthCard(
-                      onTap: () async {
-                        await firebaseServices.signInApple();
-                      },
-                      iconPath: AppIcons.appleIcon,
-                    ),
-                  ),
-                ],
-              ),
+              //     // Expanded(
+              //     //   child: AuthCard(
+              //     //     onTap: () async {
+              //     //       await firebaseServices.signInApple();
+              //     //     },
+              //     //     iconPath: AppIcons.appleIcon,
+              //     //   ),
+              //     // ),
+              //   ],
+              // ),
               SizedBox(height: 30.h),
               // ... (SignIn Navigation Row) ...
               Row(

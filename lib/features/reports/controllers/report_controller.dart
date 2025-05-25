@@ -15,6 +15,7 @@ import 'package:jourapothole/core/utils/utils.dart';
 import 'package:jourapothole/core/wrappers/body_wrapper.dart';
 import 'package:jourapothole/features/home/controllers/home_controller.dart';
 import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart'; // For MediaType
 
 class ReportController extends GetxController {
@@ -111,7 +112,7 @@ class ReportController extends GetxController {
   }
 
   // --- Method to Show Choice Dialog/Sheet ---
-  void showMediaSourceSelection() {
+  void showMediaSourceSelection() async {
     Get.bottomSheet(
       Container(
         color: Get.theme.bottomSheetTheme.backgroundColor ?? Colors.white,

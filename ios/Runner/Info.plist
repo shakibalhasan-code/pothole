@@ -3,6 +3,18 @@
 <plist version="1.0">
 <dict>
 
+<key>NSCameraUsageDescription</key>
+<string>We need camera access to take photos.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need access to your photo library to select images.</string>
+
+
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <true/>
+</dict>
+
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>This app needs access to your location.</string>
 <key>NSLocationAlwaysUsageDescription</key>
