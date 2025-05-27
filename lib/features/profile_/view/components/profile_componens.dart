@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:jourapothole/core/helpers/pref_helper.dart';
 import 'package:jourapothole/core/utils/components/custom_button.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
+import 'package:jourapothole/core/utils/utils.dart';
+import 'package:jourapothole/features/auth/view/sign_in_screen.dart';
 
 class ProfileComponents {
   static Future<void> showLogOutSheet(BuildContext context) {
@@ -81,9 +84,9 @@ class ProfileComponents {
                   Expanded(
                     child: CustomButton(
                       buttonTitle: 'Continue',
-                      onTap: () {
-                        // Handle logout logic here
-                        Navigator.pop(context);
+                      onTap: () async {
+                        await PrefHelper.removeData(Utils.token);
+                        Get.offAll(() => SignInScreen());
                       },
                     ),
                   ),
@@ -172,7 +175,7 @@ class ProfileComponents {
                         color: additionalInfoColor,
                         fontSize: additionalInfoFontSize.sp,
                       ),
-                      maxLines: 2,
+                      maxLines: 5,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
