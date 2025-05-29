@@ -72,7 +72,6 @@ class SupportScreen extends StatelessWidget {
   }
 
   // --- Helper Widgets for Building Sections ---
-
   Widget _buildContactCard(BuildContext context) {
     // Use primary color for prominent icons in this section
     Color iconColor = AppColors.primaryColor;
