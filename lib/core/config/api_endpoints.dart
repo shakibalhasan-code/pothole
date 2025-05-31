@@ -25,4 +25,6 @@ class ApiEndpoints {
 
   static String verifyPothole =
       '$baseUrl/pothole-verification/create-pothole-verification';
+
+  static String deleteAccount = '$baseUrl/user/delete';
 }

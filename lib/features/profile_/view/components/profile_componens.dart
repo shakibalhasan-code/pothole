@@ -7,7 +7,9 @@ import 'package:jourapothole/core/utils/components/custom_button.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
 import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 import 'package:jourapothole/core/utils/utils.dart';
+import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 import 'package:jourapothole/features/auth/view/sign_in_screen.dart';
+import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
 
 class ProfileComponents {
   static Future<void> showLogOutSheet(BuildContext context) {
@@ -198,8 +200,9 @@ class ProfileComponents {
                   SizedBox(width: 16.w),
                   TextButton(
                     onPressed: () {
-                      onDelete?.call(); // Execute custom delete logic
-                      Navigator.pop(context);
+                      onDelete?.call();
+
+                      Get.find<AuthController>().deleteAccount();
                     },
                     child: Text(
                       deleteText,

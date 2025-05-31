@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:jourapothole/core/helpers/pref_helper.dart';
 import 'package:jourapothole/core/helpers/widget_helper.dart';
+import 'package:jourapothole/core/utils/utils.dart';
 import 'package:path/path.dart' as p; // Assuming this works
 
 class ApiServices {
@@ -261,6 +263,27 @@ class ApiServices {
     } catch (e) {
       print('Error ($method) in sendMultipartData for $url: $e');
       throw Exception('Failed to send multipart data: ${e.toString()}');
+    }
+  }
+
+  static Future<http.Response> delete(String endpoint) async {
+    try {
+      final token = await PrefHelper.getData(Utils.token);
+      final response = await http.delete(
+        Uri.parse(endpoint),
+        headers: {'Athurization': token},
+      );
+
+      _handleResponseFeedback(response); // Custom feedback function
+
+      return response;
+    } catch (e) {
+      print("API DELETE Error: $e");
+      GlobWidgetHelper.showToast(
+        isSuccess: false,
+        message: 'Something went wrong',
+      );
+      rethrow;
     }
   }
 }

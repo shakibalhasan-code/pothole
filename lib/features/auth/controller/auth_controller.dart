@@ -285,4 +285,23 @@ class AuthController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> deleteAccount() async {
+    try {
+      final token = await PrefHelper.getData(Utils.token);
+      final response = await ApiServices.delete(ApiEndpoints.deleteAccount);
+
+      if (response.statusCode == 200) {
+        await PrefHelper.removeData(Utils.token);
+        await PrefHelper.removeData(Utils.userId);
+        Get.offAll(() => SignInScreen());
+        GlobWidgetHelper.showToast(
+          isSuccess: true,
+          message: "Account deleted successfully.",
+        );
+      }
+    } catch (e) {
+      printError(info: 'Delete Account Error: $e');
+    }
+  }
 }
