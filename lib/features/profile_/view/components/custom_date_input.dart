@@ -41,12 +41,12 @@ class _DateInputState extends State<DateInput> {
             style: GoogleFonts.roboto(
               fontSize: 14,
               fontWeight: FontWeight.w400,
-              color: Color(0xFF333333),
+              color: const Color(0xFF333333),
             ),
           ),
-        if (widget.title.isNotEmpty) SizedBox(height: 8),
+        if (widget.title.isNotEmpty) const SizedBox(height: 8),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.primaryLightColor),
             borderRadius: BorderRadius.circular(8),
@@ -59,7 +59,7 @@ class _DateInputState extends State<DateInput> {
                   color: Colors.black,
                   size: widget.isLargeIcon ? 22 : 14,
                 ),
-              if (widget.iconStart) SizedBox(width: 8),
+              if (widget.iconStart) const SizedBox(width: 8),
               Flexible(
                 // Text Field
                 child: TextFormField(
@@ -100,7 +100,7 @@ class _DateInputState extends State<DateInput> {
                   },
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               if (!widget.iconStart)
                 Icon(
                   widget.icon,

@@ -271,7 +271,7 @@ class ApiServices {
       final token = await PrefHelper.getData(Utils.token);
       final response = await http.delete(
         Uri.parse(endpoint),
-        headers: {'Athurization': token},
+        headers: {'Authorization': 'Bearer $token'},
       );
 
       _handleResponseFeedback(response); // Custom feedback function

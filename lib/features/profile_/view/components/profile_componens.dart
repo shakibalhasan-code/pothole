@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:jourapothole/core/helpers/pref_helper.dart';
 import 'package:jourapothole/core/utils/components/custom_button.dart';
 import 'package:jourapothole/core/utils/constants/app_colors.dart';
@@ -9,7 +8,6 @@ import 'package:jourapothole/core/utils/constants/app_text_styles.dart';
 import 'package:jourapothole/core/utils/utils.dart';
 import 'package:jourapothole/features/auth/controller/auth_controller.dart';
 import 'package:jourapothole/features/auth/view/sign_in_screen.dart';
-import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
 
 class ProfileComponents {
   static Future<void> showLogOutSheet(BuildContext context) {
@@ -64,7 +62,9 @@ class ProfileComponents {
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context),
                       style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: Colors.blue), // Blue outline
+                        side: const BorderSide(
+                          color: Colors.blue,
+                        ), // Blue outline
                         backgroundColor: Colors.white, // White background
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
