@@ -26,6 +26,42 @@ class LocationServices extends GetxService {
     }
   }
 
+  // New method to get coordinates from address string
+  Future<bool> getCoordinatesFromAddress(String address) async {
+    try {
+      List<Location> locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        latitude = locations[0].latitude;
+        longitude = locations[0].longitude;
+        userCurrentLocation.value = address;
+        print(
+          "Coordinates updated from address: $address -> Lat: $latitude, Lng: $longitude",
+        );
+        return true;
+      } else {
+        print("No coordinates found for address: $address");
+        return false;
+      }
+    } catch (e) {
+      print("Error getting coordinates from address: $e");
+      return false;
+    }
+  }
+
+  // Method to update location with custom coordinates
+  Future<void> updateLocationWithCoordinates({
+    required String address,
+    required double lat,
+    required double lng,
+  }) async {
+    latitude = lat;
+    longitude = lng;
+    userCurrentLocation.value = address;
+    print(
+      "Location updated with coordinates: $address -> Lat: $latitude, Lng: $longitude",
+    );
+  }
+
   Future<Position> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;

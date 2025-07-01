@@ -4,6 +4,7 @@ import 'package:jourapothole/core/services/location_services.dart'; // Your Loca
 import 'package:jourapothole/core/utils/constants/app_colors.dart'; // Your AppColors path
 import 'package:jourapothole/core/utils/components/custom_button.dart'; // Your CustomButton path
 import 'package:jourapothole/features/reports/controllers/report_controller.dart'; // Your ReportController path
+import 'package:jourapothole/features/reports/view/screens/map_picker_screen.dart'; // Map picker screen
 import 'dart:io'; // For File type in _buildMediaPreview
 
 class PotholeReportBottomSheet extends StatefulWidget {
@@ -18,9 +19,10 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
   String? selectedIssueType;
   String? selectedSeverityLevel;
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
 
   late final ReportController reportController;
-  late final LocationServices locationController;
+  late final LocationServices locationServices;
 
   @override
   void initState() {
@@ -28,7 +30,7 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
 
     try {
       reportController = Get.find<ReportController>();
-      locationController = Get.find<LocationServices>();
+      locationServices = Get.find<LocationServices>();
     } catch (e) {
       print(
         "Error finding controllers: $e. Make sure they are Get.put() before this widget is built.",
@@ -36,15 +38,28 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
       // Fallback or rethrow, depending on how critical these are for the UI to function.
       // For now, let's re-put them if not found, but this isn't ideal for global controllers.
       reportController = Get.put(ReportController());
-      locationController = Get.put(LocationServices());
+      locationServices = Get.put(LocationServices());
       // Consider showing an error to the user or preventing the sheet from fully rendering
       // if controllers can't be initialized.
     }
+
+    // Initialize location text controller with current location
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (locationServices.userCurrentLocation.value.isNotEmpty) {
+        locationController.text = locationServices.userCurrentLocation.value;
+      }
+    });
+
+    // Listen to location changes from external sources (like drafts)
+    ever(locationServices.userCurrentLocation, (String location) {
+      if (location.isNotEmpty && locationController.text != location) {
+        locationController.text = location;
+      }
+    });
   }
 
   @override
   void dispose() {
-    descriptionController.dispose();
     super.dispose();
   }
 
@@ -213,50 +228,82 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 8),
-        Obx(
-          () => Column(
-            children: [
-              TextFormField(
-                // Using a key ensures the initialValue updates if location changes externally
-                key: ValueKey(locationController.userCurrentLocation.value),
-                initialValue:
-                    locationController.userCurrentLocation.value.isNotEmpty
-                        ? locationController.userCurrentLocation.value
-                        : null,
-                readOnly:
-                    true, // Make it read-only, location is fetched or picked
-                decoration: InputDecoration(
-                  hintText:
-                      locationController.userCurrentLocation.value.isEmpty
-                          ? 'Fetching location...'
-                          : 'Tap icon to refresh or pick',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(color: AppColors.primaryLightColor),
-                  ),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 12.0,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      Icons.my_location,
-                      color: AppColors.primaryColor,
-                    ),
-                    onPressed: () async {
-                      await locationController.getUserLocationWithAddress();
-                    },
-                  ),
+        TextFormField(
+          controller: locationController,
+          readOnly: false,
+          keyboardType: TextInputType.streetAddress,
+
+          decoration: InputDecoration(
+            hintText: 'Enter location or tap icon to get current location',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(color: AppColors.primaryLightColor),
+            ),
+            filled: true,
+            fillColor: Colors.grey[100],
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 12.0,
+            ),
+            suffixIcon: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.my_location, color: AppColors.primaryColor),
+                  onPressed: () async {
+                    await locationServices.getUserLocationWithAddress();
+                    // Update the text controller without triggering rebuild
+                    if (locationController.text !=
+                        locationServices.userCurrentLocation.value) {
+                      locationController.text =
+                          locationServices.userCurrentLocation.value;
+                    }
+                  },
+                  tooltip: 'Get current location',
                 ),
-                onTap: () {
-                  // Could also be used to open a map picker
-                  print("Location Field Tapped - consider opening map picker");
-                },
-              ),
-            ],
+                IconButton(
+                  icon: Icon(Icons.map, color: AppColors.primaryColor),
+                  onPressed: () {
+                    _showLocationPicker();
+                  },
+                  tooltip: 'Pick location from map',
+                ),
+              ],
+            ),
           ),
+          onChanged: (value) {
+            // Update the location text as user types
+            if (value.isNotEmpty) {
+              locationServices.userCurrentLocation.value = value;
+            }
+          },
+          onFieldSubmitted: (value) async {
+            // When user finishes typing, get coordinates for the address
+            if (value.isNotEmpty) {
+              bool success = await locationServices.getCoordinatesFromAddress(
+                value,
+              );
+              if (success) {
+                Get.snackbar(
+                  'Success',
+                  'Location coordinates updated!',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                  duration: const Duration(seconds: 2),
+                );
+              } else {
+                Get.snackbar(
+                  'Warning',
+                  'Could not get coordinates for this address. You can still submit the report.',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.orange,
+                  colorText: Colors.white,
+                  duration: const Duration(seconds: 3),
+                );
+              }
+            }
+          },
         ),
 
         const SizedBox(height: 4),
@@ -439,6 +486,29 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
     });
   }
 
+  void _showLocationPicker() {
+    Get.to(
+      () => MapPickerScreen(
+        onLocationSelected: (lat, lng, address) {
+          locationServices.updateLocationWithCoordinates(
+            address: address,
+            lat: lat,
+            lng: lng,
+          );
+          locationController.text = address;
+          Get.snackbar(
+            'Success',
+            'Location selected from map!',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+            duration: const Duration(seconds: 2),
+          );
+        },
+      ),
+    );
+  }
+
   void _submitReport() async {
     // Basic form validation (can be expanded with a Form widget and GlobalKey)
     if (selectedIssueType == null) {
@@ -457,7 +527,7 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
       );
       return;
     }
-    if (locationController.userCurrentLocation.value.isEmpty) {
+    if (locationServices.userCurrentLocation.value.isEmpty) {
       Get.snackbar(
         "Validation Error",
         "Location is required. Please ensure location is fetched.",
@@ -475,9 +545,9 @@ class _PotholeReportBottomSheetState extends State<PotholeReportBottomSheet> {
       issueType: selectedIssueType,
       severityLevel: selectedSeverityLevel,
       description: descriptionController.text.trim(),
-      location: locationController.userCurrentLocation.value,
-      // latitude: locationController.latitude.value, // If you have these
-      // longitude: locationController.longitude.value, // If you have these
+      location: locationServices.userCurrentLocation.value,
+      // latitude: locationServices.latitude, // If you have these
+      // longitude: locationServices.longitude, // If you have these
     );
     reportController.clearMedia(); // Clear media after submission
   }

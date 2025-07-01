@@ -77,9 +77,6 @@ class DrafsScreen extends StatelessWidget {
 
     return InkWell(
       onTap: () async {
-        Get.find<LocationServices>().userCurrentLocation.value = draft.address;
-        Get.find<LocationServices>().latitude = draft.latitude;
-        Get.find<LocationServices>().longitude = draft.longitude;
         showModalBottomSheet(
           context: context,
           backgroundColor: AppColors.whiteColor,
@@ -87,7 +84,16 @@ class DrafsScreen extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
-          builder: (context) => const PotholeReportBottomSheet(),
+          builder: (context) {
+            // Set the location after the bottom sheet is created
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Get.find<LocationServices>().userCurrentLocation.value =
+                  draft.address;
+              Get.find<LocationServices>().latitude = draft.latitude;
+              Get.find<LocationServices>().longitude = draft.longitude;
+            });
+            return const PotholeReportBottomSheet();
+          },
         );
       },
       child: Padding(
