@@ -1,8 +1,8 @@
 class ApiEndpoints {
-  ///MainUrl
-  ///  static String baseUrl = 'http://192.168.10.99:5006/api/v1';
+  ///local
+    static String baseUrl = 'http://10.10.12.125:5006/api/v1';
 
-  static String baseUrl = 'http://31.97.33.65:5006/api/v1';
+  // static String baseUrl = 'http://31.97.33.65:5006/api/v1';
 
   static String authPath = '$baseUrl/auth';
 
@@ -13,7 +13,7 @@ class ApiEndpoints {
   static String getMyReports = '$baseUrl/pothole/my-reports';
 
   static String createPothole = '$baseUrl/pothole';
-
+  
   static String verifyEmail = '$authPath/verify-email';
   static String forgotPassword = '$authPath/forgot-password';
   static String resetPassword = '$authPath/reset-password';
@@ -27,4 +27,7 @@ class ApiEndpoints {
       '$baseUrl/pothole-verification/create-pothole-verification';
 
   static String deleteAccount = '$baseUrl/user/delete';
+
+
+  
 }

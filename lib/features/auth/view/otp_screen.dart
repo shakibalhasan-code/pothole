@@ -66,7 +66,7 @@ class OtpScreen extends StatelessWidget {
                   : CustomButton(
                     buttonTitle: 'Continue',
                     onTap: () {
-                      authContrller.verifyOtp();
+                      authContrller.verifyOtp(isForgetPass);
                     },
                   );
             }),

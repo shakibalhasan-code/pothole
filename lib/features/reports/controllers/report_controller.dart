@@ -277,6 +277,7 @@ class ReportController extends GetxController {
         // Optional: Add headers if needed (e.g., Authorization for a logged-in user)
         headers: {'Authorization': 'Bearer $token'},
       );
+      printError(info: '===========>>>>>>>>>> response: ${response.body}');
 
       isLoading.value = false;
 
@@ -305,10 +306,13 @@ class ReportController extends GetxController {
           print("Error in clearMedia(): $e");
         }
       } else {
+        print(response.statusCode);
         print("Failed to submit report: ${response.statusText}");
         errorText.value = response.statusText ?? 'Unknown error occurred.';
+       
+       final message = jsonDecode(response.body['message']);
         Get.snackbar(
-          'Failed to submit report: $Error',
+          'Failed to submit report: $message',
           errorText.value,
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
@@ -318,6 +322,7 @@ class ReportController extends GetxController {
       }
     } catch (e, stackTrace) {
       isLoading.value = false;
+      Get.snackbar('Failed', e.toString());
       print("Exception caught while submitting report: $e");
       print("Stack trace: $stackTrace");
     }

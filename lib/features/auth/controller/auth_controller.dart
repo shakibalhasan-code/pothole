@@ -151,17 +151,18 @@ class AuthController extends GetxController {
 
       // Check status code AFTER the API call returns the http.Response
       if (response.statusCode >= 200 && response.statusCode < 300) {
+
+        await PrefHelper.saveData('email', emailController.text);
+
         // TODO: Decide the next step - auto-login? Show success screen? Navigate to login?
         GlobWidgetHelper.showToast(
           isSuccess: true,
           message: "Signup successful!",
         );
-        Get.offAll(() => SignInScreen());
-        pageController.animateToPage(
-          0, // Assuming 0 is the login page index
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
+        Get.to(
+          () => OtpScreen(email: emailController.text, isForgetPass: false),
         );
+       
         // Clear signup fields after successful signup (optional)
         firstNameController.clear();
         lastNameController.clear();
@@ -199,7 +200,7 @@ class AuthController extends GetxController {
       );
       if (response.statusCode == 200) {
         Get.to(
-          () => OtpScreen(email: emailController.text, isForgetPass: false),
+          () => OtpScreen(email: emailController.text, isForgetPass: true),
         );
       }
     } catch (e) {
@@ -225,10 +226,19 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> verifyOtp() async {
+  Future<void> verifyOtp(bool isForget) async {
     try {
       isLoading.value = true;
-      final data = {'email': emailController.text, 'oneTimeCode': otp.value};
+      final email = await PrefHelper.getData('email');
+      // if(emailController.text.isEmpty || otp.value.isEmpty || email.isEmpty) {
+      //   GlobWidgetHelper.showToast(
+      //     isSuccess: false,
+      //     message: "Email and OTP cannot be empty.",
+      //   );
+      //   return; // Stop execution
+      // }
+      final data = {'email': isForget ? emailController.text : email, 'oneTimeCode': otp.value};
+      printInfo(info: 'Data to verify OTP: $data');
       isLoading.value = true;
       final response = await ApiServices.postData(
         body: data,
@@ -240,8 +250,13 @@ class AuthController extends GetxController {
         tempTokenReset.value = tempToken;
         await PrefHelper.saveData(Utils.tempToken, tempToken);
         printError(info: '=========>>>>>>>> ${tempTokenReset.value}');
-
-        Get.to(PassSetScreen());
+        if (isForget) {
+          printInfo(info: 'Navigating to NewPasswordScreen');
+          Get.to(() => PassSetScreen());
+        } else {
+          printInfo(info: 'Navigating to SignInScreen');
+          Get.offAll(() => SignInScreen());
+        }
       }
     } catch (e) {
       printError(info: '===========>>>>>>>> $e');
