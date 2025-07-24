@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:jourapothole/core/config/api_endpoints.dart';
+import 'package:jourapothole/core/helpers/pref_helper.dart';
 import 'package:jourapothole/core/models/draf_data_model.dart';
 import 'package:jourapothole/core/models/pothole_model.dart';
 import 'package:jourapothole/core/services/api_services.dart';
 import 'package:jourapothole/core/utils/helper/db_helper.dart';
+import 'package:jourapothole/core/utils/utils.dart';
 
 class HomeController extends GetxController {
   RxList<PotholeModel> allPothole = RxList();
@@ -26,7 +28,13 @@ class HomeController extends GetxController {
       isLoading.value = true;
       allPothole.clear();
 
-      final response = await ApiServices.getData(url: ApiEndpoints.pothole);
+      final response = await ApiServices.getData(url: ApiEndpoints.pothole, 
+      
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${await PrefHelper.getData(Utils.token)}',
+      }
+      );
 
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);

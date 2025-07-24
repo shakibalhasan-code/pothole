@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:jourapothole/core/helpers/pref_helper.dart';
@@ -85,6 +87,7 @@ class ApiServices {
       rethrow;
     }
   }
+  
 
   /// postUserData
   static Future<http.Response> postData({

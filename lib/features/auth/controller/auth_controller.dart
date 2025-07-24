@@ -139,6 +139,7 @@ class AuthController extends GetxController {
         'firstName': firstNameController.text.trim(),
         'lastName': lastNameController.text.trim(),
         'email': emailController.text.trim(),
+        'phoneNumber': phoneNumberController.text.trim(), // Use phoneNumberController if needed
         'password': passwordController.text, // Use the new password for signup
         // Include other fields like phoneNumber if required by API
       };
@@ -216,7 +217,7 @@ class AuthController extends GetxController {
       final data = {'email': emailController.text};
       final response = await ApiServices.postData(
         body: data,
-        url: ApiEndpoints.forgotPassword,
+        url: ApiEndpoints.resendOtp,
       );
       if (response.statusCode == 200) {}
     } catch (e) {
