@@ -40,7 +40,7 @@ class HomeController extends GetxController {
         final body = jsonDecode(response.body);
         final data = body['data'];
 
-        printInfo(info: 'Data received: ${data.length} items');
+        printInfo(info: 'Data received>>>>>>>>>>>>>: $data');
 
         for (var patholeJson in data) {
           // Use a better variable name

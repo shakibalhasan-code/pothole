@@ -40,7 +40,7 @@ class PotholeModel {
     return PotholeModel(
       // Map '_id' from JSON to 'id' in your model
       id: json['_id'] as String,
-      issue: json['issue'] as String? ?? 'Unknown Issue', // Add null checks
+      issue: json['issue'] as String? ?? 'Unkno wn Issue', // Add null checks
       severityLevel: json['severityLevel'] as String? ?? 'Unknown Severity',
       description: json['description'] as String? ?? 'No description provided.',
       user: json['user'] as String? ?? 'Unknown User',
@@ -62,7 +62,7 @@ class PotholeModel {
   }
 }
 
-// --- You need to define the Location class ---
+// --- we need to define the Location class ---
 class Location {
   final String address;
   final double latitude;
@@ -75,14 +75,22 @@ class Location {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) {
+    final coordinates = json['coordinates'] as List<dynamic>? ?? [0.0, 0.0];
+
+    // Safely extract latitude and longitude
+    double longitude = 0.0;
+    double latitude = 0.0;
+
+    if (coordinates.length >= 2) {
+      longitude = (coordinates[0] as num).toDouble();
+      latitude = (coordinates[1] as num).toDouble();
+    }
+
     return Location(
-      address: json['address'] as String? ?? 'Unknown Address', // Handle null
-      latitude:
-          (json['latitude'] as num? ?? 0.0)
-              .toDouble(), // Handle null and ensure double
-      longitude:
-          (json['longitude'] as num? ?? 0.0)
-              .toDouble(), // Handle null and ensure double
+      address: json['address'] as String? ?? 'Unknown Address',
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 }
+

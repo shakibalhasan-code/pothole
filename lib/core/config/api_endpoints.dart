@@ -1,8 +1,8 @@
 class ApiEndpoints {
   ///local
-    static String baseUrl = 'http://10.10.12.125:5006/api/v1';
+    // static String baseUrl = 'http://10.10.12.125:5006/api/v1';
 
-  // static String baseUrl = 'http://31.97.33.65:5006/api/v1';
+  static String baseUrl = 'https://joura.info/api/v1';
 
   static String authPath = '$baseUrl/auth';
 
