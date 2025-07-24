@@ -160,8 +160,10 @@ class AuthController extends GetxController {
           isSuccess: true,
           message: "Signup successful!",
         );
+
+        final email = await PrefHelper.getData('email');
         Get.to(
-          () => OtpScreen(email: emailController.text, isForgetPass: false),
+          () => OtpScreen(email: email, isForgetPass: false),
         );
        
         // Clear signup fields after successful signup (optional)
