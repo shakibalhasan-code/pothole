@@ -101,21 +101,16 @@ class ReportProblemBottomSheet extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.close, color: AppColors.redColor),
-                  onPressed: () {
-                    getVerifyList().then((isVerified) {
-                      if (isVerified) {
-                        Get.back();
-                        printError(
-                          info: 'You have already verified this report.',
-                        );
-                      } else {
-                        _showConfirmationDialog(context);
-                      }
-                    });
-                  },
-                ),
+                Obx((){
+                  return reportsController.isVerifying.value
+                    ? Center(child: const CircularProgressIndicator())
+                    : IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          _showConfirmationDialog(context);
+                        },
+                      );
+                })
               ],
             ),
             SizedBox(height: 8.h),

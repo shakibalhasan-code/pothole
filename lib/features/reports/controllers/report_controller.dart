@@ -12,11 +12,8 @@ import 'package:jourapothole/core/services/api_services.dart';
 import 'package:jourapothole/core/services/location_services.dart';
 import 'package:jourapothole/core/utils/helper/db_helper.dart';
 import 'package:jourapothole/core/utils/utils.dart';
-import 'package:jourapothole/core/wrappers/body_wrapper.dart';
 import 'package:jourapothole/features/home/controllers/home_controller.dart';
 import 'package:jourapothole/features/profile_/controller/profile_controller.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:sqflite/sqflite.dart'; // For MediaType
 
 class ReportController extends GetxController {
   final ImagePicker _picker = ImagePicker();
@@ -25,6 +22,7 @@ class ReportController extends GetxController {
   final profileController = Get.find<ProfileController>();
   final homeController = Get.find<HomeController>();
   final isVerified = false.obs;
+  final isVerifying = false.obs;
 
   RxList<DrafDataModel> draftReports = <DrafDataModel>[].obs;
 
@@ -336,6 +334,8 @@ class ReportController extends GetxController {
     errorText.value = '';
 
     try {
+      isVerifying.value = true;
+
       final userId = await PrefHelper.getData(Utils.userId);
       if (userId == null) {
         Get.snackbar(
@@ -345,6 +345,7 @@ class ReportController extends GetxController {
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
+        isVerifying.value = false;
         return;
       }
 
@@ -362,6 +363,8 @@ class ReportController extends GetxController {
       final bodyResponse = jsonDecode(request.body);
 
       if (request.statusCode == 200 || request.statusCode == 201) {
+
+
         Get.back();
 
         print("Report verified successfully: ${request.body}");
@@ -408,6 +411,8 @@ class ReportController extends GetxController {
         );
       }
     } catch (e, stackTrace) {
+   
+
       // Added stackTrace for better debugging
       print("Error verifying report: $e\n$stackTrace");
       errorText.value = 'An unexpected error occurred: ${e.toString()}';
@@ -420,6 +425,8 @@ class ReportController extends GetxController {
         icon: const Icon(Icons.error, color: Colors.white),
       );
     } finally {
+        isVerifying.value = false;
+
       isLoading.value = false; // Reset loading state
     }
   }
